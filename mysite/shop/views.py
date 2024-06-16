@@ -17,43 +17,19 @@ from django.db.models import Q
 
 # Create your views here.
 
-# def search(request):
-#     if request.method == "POST":
-#         searched = request.POST['searched']
-#         if searched:
-#             # Check if any matching products exist before querying the database
-#             if Product.objects.filter(Q(name__icontains=searched) | Q(description__icontains=searched)).exists():
-#                 products = Product.objects.filter(
-#                     Q(name__icontains=searched) | Q(description__icontains=searched)
-#                 )
-#                 # return render(request, 'search.html', {
-#                 #     'searched': searched, 
-#                 #     'products': products,
-#                 #     })
-#                 return httpResponse('search.html',{
-#                     'searched': searched, 
-#                     'products': products,
-#                 })
-#                 # return redirect('shop:home')
-#             else:
-#                 messages.success(request, "No products found matching the search criteria.")
-#         else:
-#             messages.error(request, "Please enter a search term.")
-#             return redirect('shop:home')
 def search(request):
     if request.method == "POST":
         searched = request.POST.get('searched', '')  # Safely get the search term from POST data
 
         if searched:
-            # Check if any matching products exist before querying the database
+            # Query the database for matching products
             products = Product.objects.filter(
                 Q(name__icontains=searched) | Q(description__icontains=searched)
             )
 
             if products.exists():
                 return render(request, 'search.html', {
-                    'searched': searched, 
-                    'products': products,
+                    'searched': products,  # Pass the actual products to the template
                 })
             else:
                 messages.success(request, "No products found matching the search criteria.")

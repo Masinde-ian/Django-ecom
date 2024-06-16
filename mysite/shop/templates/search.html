@@ -4,23 +4,16 @@
 <main class="col-12 col-lg-9 d-block mx-0 px-0">
     <h2 class="text-center text-primary-emphasis">Search Results</h2>
     <div class="d-flex flex-wrap" id="card-container">
-    {% for product in searched %}
-
-    {{product.id}}
-    {{product.image.url}}
-    {{product.name}}
-        {% if product.discount > 0 %}
-          {% include 'offercard.html' with product=product %}                    
-        {% else %}
-          {% include 'pricecard.html' with product=product %}
-        {% endif %}
-    {% endfor %}
-    <!-- {% for product in products %}
-    {% if product.discount > 0 %} 
-      {% include 'offercard.html' with product=product %}                  
-    {% endif %} -->
-
-  {% endfor %}
+        {% for product in searched %}
+            <div class="product-card">
+                <h3>{{ product.name }}</h3>
+                {% if product.discount > 0 %}
+                    {% include 'offercard.html' with product=product %}                    
+                {% else %}
+                    {% include 'pricecard.html' with product=product %}
+                {% endif %}
+            </div>
+        {% endfor %}
     </div>
 </main>
 {% endblock %}

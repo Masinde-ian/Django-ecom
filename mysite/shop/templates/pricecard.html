@@ -18,9 +18,11 @@
         <!--<p class="d-none d-lg-inline-block card-text m-0 p-0">{{product.description}}</p>-->
         <div class="d-lg-flex justify-content-lg-between p-0 m-0">
           <!-- <button type="button" value="{{ product.id }}" data-product-id="{{ product.id }}" id="add-cart" class="btn btn-primary m-1 container-fluid p-0">+ cart</button> -->
+          <form action="{% url 'Cart:add_to_cart' product.id %}" method="post" class="container-fluid p-0">
             {% csrf_token %}
             <input type="submit" value="+ cart" class="btn btn-primary container-fluid p-0">
           </form>
+          <a href="{% url 'shop:product' product.id %}" class="btn btn-secondary m-1 container-fluid p-0">view item</a>
         </div>
       </div>
     </div> 
