@@ -1,0 +1,238 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Ryche Pharmacy</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        {% load bootstrap5 %}
+  {% bootstrap_css %}
+  {% bootstrap_javascript %}
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="{% static 'design/style.css' %}">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <!--Header-->
+        <div class="container-fluid justify-content-between shadow-sm border-bottom border-black w-100 m-0">
+            <div class="row justify-content-lg-evenly">
+              <div class="d-flex justify-content-between row col-10 col-lg-5">
+                <div class="col-5 col-lg-5 z-0">
+                  <div class="brand p-3">
+                      <a href="#"><img src="{% static 'design\logo2.png' %}" alt="Ryche Pharmacy logo" class="logo" style="height:59px;"></a>
+                  </div>
+                </div>
+                <!--account,cart-->
+                <div class="col-5 col-lg-5 ms-lg-1">
+                  <div class="row justify-content-evenly border-start border-primary border-4 my-3">
+                    <div class="d-flex row">
+                      <!--account--> 
+                      {% if user.is_authenticated %}
+                      <div class="col p-0">
+                        <a href="#" id="account" class="text-decoration-none" role="button">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-person" viewBox="0 0 14 14">
+                              <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+                            </svg>
+                          <span class="text-black text-decoration-none d-none d-sm-inline-grid">Account</span>
+                        </a>
+                        <a href="{% url 'logout' %}" class="btn btn-outline-light btn-light text-dark p-1">Logout</a>
+                      </div>
+                      {% else %}
+                      <div class="col p-0">
+                          <a href="#account1" id="account" class="text-decoration-none" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="account1">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-person" viewBox="0 0 14 14">
+                                  <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+                                </svg>
+                              <span class="text-black text-decoration-none d-none d-sm-inline-grid">Account</span>
+                          </a>
+                          <div class="collapse z-2 position-absolute start-0" id="account1" style="z-index: 1;">
+                              <div class="card " style="display: inline-block;">
+                                <div class="card-header border-bottom border-primary border-2 p-1">
+                                  <h4 class="text-primary">My Account</h4>
+                                </div>
+                                <div class="card-body">
+                                  <div class="container py-2">
+                                    <span class="fw-light">Login/ Create account to get personalised experience</span>
+                                  </div>
+                                  <div class="container justify-content-between py-2 border-bottom border-2">
+                                    <div style="display: flex; justify-content: space-around;">
+                                      <button class="btn btn-primary" style="width: 150px;"><a href="{% url 'login' %}" class="text-decoration-none text-white">Login</a></button>
+                                      <button class="btn btn-light" style="width: 150px;"><a href="{% url 'register' %}" class="text-decoration-none text-dark">Create Account</a></button>
+                                    </div> 
+                                  </div>
+                                  <div class="py-3 border-bottom border-1" style="display: flex;">
+                                    <div class="px-4">
+                                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-box-seam" viewBox="0 0 16 16">
+                                        <path d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5l2.404.961L10.404 2zm3.564 1.426L5.596 5 8 5.961 14.154 3.5zm3.25 1.7-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923zM7.443.184a1.5 1.5 0 0 1 1.114 0l7.129 2.852A.5.5 0 0 1 16 3.5v8.662a1 1 0 0 1-.629.928l-7.185 2.874a.5.5 0 0 1-.372 0L.63 13.09a1 1 0 0 1-.63-.928V3.5a.5.5 0 0 1 .314-.464z"/>
+                                      </svg>
+                                    </div>
+                                    <div class="">
+                                      <a href="#" class="text-decoration-none">Order</a>
+                                      <p class="fw-light">View and track your order</p>
+                                    </div>
+                                  </div>
+                                  <div class="grid py-2 border-bottom border-1" style="display: flex;">
+                                    <div class="px-4">
+                                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                                        <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
+                                      </svg>
+                                    </div>
+                                    <div>
+                                      <a href="#" class="text-decoration-none">Favourites</a>
+                                      <p class="fw-light">View your favorites/saved products</p>
+                                    </div>
+                                  </div>
+                                  <div class="grid py-2 border-bottom border-1">
+                                    <div class="grid py-2 border-bottom border-1" style="display: flex;">
+                                      <div class="px-4">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                                          <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+                                        </svg>
+                                      </div>
+                                      <div>
+                                        <a href="#" class="text-decoration-none">Account settings</a>
+                                        <p class="fw-light">Adresses, payments, Password</p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                          </div>
+                      </div>
+                      {% endif %}
+                      <!--Cart--> 
+                      {% if user.is_authenticated %}
+                      <div class="col p-0 mx-1">
+                        <a href="{% url 'Cart:cart_summary' %}" id="cart" class="text-decoration-none" role="button">
+                          <span class="shadow-sm bg-primary p-1 rounded-5 text-white" id="cart_quantity">{{ cart_total_items  }}</span>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-basket2" viewBox="0 0 16 16">
+                              <path d="M4 10a1 1 0 0 1 2 0v2a1 1 0 0 1-2 0zm3 0a1 1 0 0 1 2 0v2a1 1 0 0 1-2 0zm3 0a1 1 0 1 1 2 0v2a1 1 0 0 1-2 0z"/>
+                              <path d="M5.757 1.071a.5.5 0 0 1 .172.686L3.383 6h9.234L10.07 1.757a.5.5 0 1 1 .858-.514L13.783 6H15.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-.623l-1.844 6.456a.75.75 0 0 1-.722.544H3.69a.75.75 0 0 1-.722-.544L1.123 8H.5a.5.5 0 0 1-.5-.5v-1A.5.5 0 0 1 .5 6h1.717L5.07 1.243a.5.5 0 0 1 .686-.172zM2.163 8l1.714 6h8.246l1.714-6z"/>
+                          </svg>
+                          <span class="text-black text-decoration-none d-none d-sm-inline-grid">Cart</span>
+                      </a>
+                      <a href="{% url 'shop:update_user' %}" class="btn btn-outline-light btn-light text-dark p-1">User</a>
+                      </div>
+                      {% else %}
+                      <div class="col p-0 mx-1">
+                          <a href="#cart1" id="cart" class="text-decoration-none" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="cart1">
+                              <span class="shadow-sm bg-primary p-1 rounded-5 text-white">0</span>
+                              <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-basket2" viewBox="0 0 16 16">
+                                  <path d="M4 10a1 1 0 0 1 2 0v2a1 1 0 0 1-2 0zm3 0a1 1 0 0 1 2 0v2a1 1 0 0 1-2 0zm3 0a1 1 0 1 1 2 0v2a1 1 0 0 1-2 0z"/>
+                                  <path d="M5.757 1.071a.5.5 0 0 1 .172.686L3.383 6h9.234L10.07 1.757a.5.5 0 1 1 .858-.514L13.783 6H15.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-.623l-1.844 6.456a.75.75 0 0 1-.722.544H3.69a.75.75 0 0 1-.722-.544L1.123 8H.5a.5.5 0 0 1-.5-.5v-1A.5.5 0 0 1 .5 6h1.717L5.07 1.243a.5.5 0 0 1 .686-.172zM2.163 8l1.714 6h8.246l1.714-6z"/>
+                              </svg>
+                              <span class="text-black text-decoration-none d-none d-sm-inline-grid">Cart</span>
+                          </a>
+                          <div id="cart1" class="collapse z-2 position-absolute start-0">
+                              <div class="card border-primary-subtle rounded-0 shadow-lg" style="display: inline-block;">
+                                <div class="card-body" style="width: 40vw; min-width: 350px;">
+                                  <div class="text-center border-bottom border-2 p-2 border-primary">
+                                    <span class="fw-light">Your cart is empty at the moment.</span>
+                                    <p class="fw-light">Let's add some products to your cart.</p>
+                                    <button class="btn btn-primary"><a href="{% url 'login' %}" class="text-decoration-none text-white">Start Shoping</a></button></button>
+                                  </div>
+                                  <div class="text-center">
+                                    <span class="fw-light">Login to see products added to your cart.</span>
+                                    <div class="p-3" style="display: flex; justify-content: space-between;">
+                                      <button class="btn btn-primary" style="width: 150px;"><a href="{% url 'login' %}" class="text-decoration-none text-white">Login</a></button></button>
+                                      <button class="btn btn-light btn-outline-dark" style="width: 150px;"><a href="{% url 'register' %}" class="text-decoration-none text-dark">Create Account</a></button>
+                                    </div>
+                                  </div> 
+                                </div>
+                              </div>
+                          </div>
+                      </div>
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+                <!--Searchbar-->
+                <div class="col-12 col-lg-6">
+                    <div class="p-0 m-2 align-items-center" style="display: inline;">
+                        {% include 'searchbar.html' %}                   
+                    </div>
+                </div> 
+                <div class="col-2 col-lg-12 z-1" id="navbar">
+                  {% include 'navbar.html' %}
+                </div>  
+            </div>
+            {% if messages %}
+              {% for message in messages %}
+              <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+              {% endfor %}
+            {% endif %}           
+        </div>
+
+        {% block content %}
+        {% endblock %}
+
+        {% include 'footer.html' %}
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" async defer></script>
+        <script>
+           // Capture click event on the add to cart button
+        $(document).ready(function() {
+            $('#add-cart').click(function() {
+                // Get the product id from the button's data attribute
+                var productId = $(this).data('product-id');
+                // Send AJAX request to add the product to the cart
+                $.ajax({
+                    type: 'POST',
+                    url: '',
+                    data: {
+                        'product_id': productId,
+                        'csrfmiddlewaretoken': '{{ csrf_token }}'
+                    },
+                    success: function(response) {
+                        // Refresh the page or update the cart summary
+                        location.reload();
+                        $('#cart_quantity').text(response.total_items);
+                    },
+                    error: function(xhr, textStatus, errorThrown) {
+                        console.error('Error adding product to cart:', textStatus);
+                    }
+                });
+            });
+        });
+             /* document.addEventListener('DOMContentLoaded', (event) => {
+              const wishlistEl = document.getElementById('wish-list');
+              var options = {
+              title: wishlistEl.getAttribute('data-bs-title')
+              };
+              var tooltip = new bootstrap.Tooltip(wishlistEl, options);
+              }); 
+              
+              let dropdowns = document.querySelectorAll('.dropdown-menu');
+
+              dropdowns.forEach((dd) => {
+              dd.addEventListener('click', function (e) {
+                  
+                  e.stopPropagation();
+
+                  var el = this.nextElementSibling;
+              
+                  if (e.target === this) {
+                  el.style.display = el.style.display === 'block' ? 'none' : 'block';
+                  }
+              });
+              });
+
+
+              document.addEventListener('click', function () {
+              dropdowns.forEach((dd) => {
+                  var content = dd.nextElementSibling;
+                  
+                  content.style.display = 'none';
+              });
+              });*/      
+        </script>
+    </body>
+</html>

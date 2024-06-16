@@ -1,0 +1,29 @@
+<!--{% load bootstrap5 %}
+  {% bootstrap_css %}
+  {% bootstrap_javascript %}-->
+<div class="d-inline m-1 col-4 col-lg-2 carousel-item active p-0" id="carousel-item" style="width: fit-content;">
+    <div class="card" style="width: 12rem;">
+      <div class="" style="height: 25vh;">
+        <span class="fw-light bg-primary-subtle position-absolute top-0 start-0">-ksh{{product.discount}} </span>
+        <span class=" top-0 end-0 float-end">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
+          </svg>
+        </span>
+        <img src=" {{product.image.url}} " class="" alt="Item Image" style="height: 25vh;">
+      </div>
+      <div class="card-body d-inline-block">
+        <h5 class="card-title">{{ product.name }} </h5>
+        <p class="card-text m-1 w-100"><span class="text-muted text-decoration-line-through">ksh{{product.price}} </span>ksh{{product.new_price}}</p>
+        <p class="card-text m-0 p-0">Discounted Price</p>
+        <div class="d-lg-flex justify-content-lg-between p-0 m-0">
+          <!-- <button type="button" value="{{ product.id }}" data-product-id="{{ product.id }}" id="add-cart" class="btn btn-primary m-1 container-fluid p-0">+ cart</button> -->
+          <form action="{% url 'Cart:add_to_cart' product.id %}" method="post" class="container-fluid p-0">
+            {% csrf_token %}
+            <input type="submit" value="+ cart" class="btn btn-primary container-fluid p-0">
+          </form>
+          <a href="{% url 'shop:product' product.id %}" class="btn btn-secondary m-1 container-fluid p-0">view item</a>
+        </div>
+      </div>
+    </div> 
+  </div> 

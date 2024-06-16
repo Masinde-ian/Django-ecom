@@ -1,0 +1,214 @@
+
+{% extends 'base.html' %}
+<!--{% load bootstrap5 %}
+  {% bootstrap_css %}
+  {% bootstrap_javascript %}-->
+{% block content %}
+ <!--body-->
+ <main class="container-fluid p-0 border-bottom border-2 border-primary" style="z-index: -1;">
+    <!--Ad-->
+    <div id="carouselExampleSlidesOnly" class="carousel slide z-n1" data-bs-ride="carousel" style="height: 40vh;">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="" class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item">
+          <img src="" class="d-block w-100 " alt="...">
+        </div>
+        <div class="carousel-item">
+          <img src="" class="d-block w-100" alt="...">
+        </div>
+      </div>
+    </div>
+    <!--Offer-->
+    <div class="container-fluid mb-2">
+    <p class="fw-bolder text-center m-2 fs-3 text-primary-emphasis">OFFERS</p>
+
+      <!--Price cards-->
+      <div class="container-fluid m-0 p-0 z-n2">
+        <div class="container-fluid m-0 p-0">
+          <div class="m-0 p-0 grid d-flex carousel slide" id="carouselll">
+            <div class="grid carousel-inner" id="carousel-inner">
+              {% for product in products %}
+                {% if product.discount > 0 %} 
+                  {% include 'offercard.html' with product=product %}                  
+                {% endif %}
+              {% endfor %}
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselll" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselll" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>                
+          </div>        
+        </div>
+      </div>
+
+      <p class="fw-semibold d-flex justify-content-center"><a href="" class="btn btn-light">See More...</a></p>
+    </div>
+    <!--poster-->
+    <div class="container-fluid p-5" style="background-color:rgb(30 58 138);">
+      <span class="bg-light"> poster</span>
+    </div>
+    <!--Top picks--> 
+    <div class="container mb-2">
+      <p class="fw-bolder text-center m-2 fs-3 text-primary-emphasis">TOP PICKS</p>
+      <!--Price cards-->
+      
+      <div class="container-fluid m-0 p-0 z-n2">
+        <div class="container-fluid m-0 p-0">
+          <div class="m-0 p-0 container d-flex carousel slide" id="carousell">
+            <div class="grid carousel-inner" id="carousel-inner" role="listbox">
+          {% for product in products %}
+             {% include 'pricecard.html' with product=product %}                        
+          {% endfor %}
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carousell" data-bs-slide="prev" id="prev-button">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carousell" data-bs-slide="next" id="next-button">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>         
+          </div>
+        </div>
+      </div>
+      
+    </div>
+    <!--Posters-->
+    <div class="container-fluid row justify-content-between">
+      <div class="col-12 col-lg-3 bg-primary mb-3" style="height: 20rex;"> POSTER 1</div>
+      <div class="col-12 col-lg-5 bg-primary mb-3" style="height: 20rex;"> POSTER 2</div>
+      <div class="col-12 col-lg-3 bg-primary mb-3" style="height: 20rex;"> POSTER 3</div>
+    </div>
+    <!--Assistance-->
+    <div class="container-fluid m-2">
+      <div class="container w-75">
+        <p class="fs-2 text-center text-primary-emphasis fw-bold">
+          Welcome and how can we be
+          of assistance at Ryche Pharmaceuticals today? 
+        </p>
+      </div>
+      <div class="container-fluid row justify-content-between">
+        <a href="#" class="col-4 col-lg-2 btn btn-outline-primary m-3 border-3">Consultation</a>
+        <a href="#" class="col-4 col-lg-2 btn btn-outline-primary m-3 border-3">Lab Services</a>
+        <a href="#" class="col-4 col-lg-2 btn btn-outline-primary m-3 border-3">Vaccinations</a>
+        <a href="#" class="col-4 col-lg-2 btn btn-outline-primary m-3 border-3">Diagnostic Tests</a>
+      </div>
+    </div>
+    <!--Bottom-->
+    <div class="container-fluid row p-2 m-2 justify-content-between align-items-center" style="background-color:rgb(30 58 138);">
+      <p class="col-11 col-lg-4 fw-bold fs-6" style="color: white;">Sign Up for updates on our latest deals, Product News and more from Ryche Pharmaceuticals</p>
+      <div class="coll-11 col-lg-5 border-1 border p-0" style="display: inline; height: fit-content;">
+        <input type="email" name="email" id="email-n" class="w-100" placeholder="Insert your email adress" style="width: 80%;">
+      </div>
+      <button type="submit" class="col-11 col-lg-2 btn btn-light h-25 m-3">Subscribe</button>
+    </div>
+    <div class="container-fluid row p-2 m-2 justify-content-between m-3">
+      <button class="col-5 col-lg-2 btn btn-primary m-2" href="">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-headset" viewBox="0 0 16 16">
+          <path d="M8 1a5 5 0 0 0-5 5v1h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a6 6 0 1 1 12 0v6a2.5 2.5 0 0 1-2.5 2.5H9.366a1 1 0 0 1-.866.5h-1a1 1 0 1 1 0-2h1a1 1 0 0 1 .866.5H11.5A1.5 1.5 0 0 0 13 12h-1a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1h1V6a5 5 0 0 0-5-5"/>
+        </svg>
+        <span>Customer Care</span>
+      </button>
+      <button class="col-5 col-lg-2 btn btn-primary m-2" href="">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone" viewBox="0 0 16 16">
+          <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z"/>
+        </svg>
+        <span>Contact Us</span>
+      </button>
+      <button class="col-5 col-lg-2 btn btn-primary m-2" href="">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-prescription2" viewBox="0 0 16 16">
+          <path d="M7 6h2v2h2v2H9v2H7v-2H5V8h2z"/>
+          <path d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v10.5a1.5 1.5 0 0 1-1.5 1.5h-7A1.5 1.5 0 0 1 3 14.5V4a1 1 0 0 1-1-1zm2 3v10.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V4zM3 3h10V1H3z"/>
+        </svg>
+        <span>Book Consultation</span>
+      </button>
+      <button class="col-5 col-lg-3 btn btn-primary m-2" href="">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
+          <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"/>
+          <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708z"/>
+        </svg>
+        <span>Upload prescription/ HIV results</span>
+      </button>
+    </div>      
+  </main>
+  <script>
+    // Check if button pressed
+    
+
+    /*var carouselWidth = $("#carousel-inner")[0].scrollWidth;
+              var cardWidth = $("#carousel-item").width();
+              var scrollPosition = 0;
+              $(".carousel-control-next").on("click", function () {
+                  if (scrollPosition < (carouselWidth - cardWidth * 1)) { //check if you can go any further
+                    scrollPosition += cardWidth;  //update scroll position
+                    $("#carousel-inner").animate({ scrollLeft: scrollPosition },); //scroll left
+                  }
+                });
+                $(".carousel-control-prev").on("click", function () {
+                  if (scrollPosition > 0) {
+                    scrollPosition -= cardWidth;
+                    $("#carousel-inner").animate(
+                      { scrollLeft: scrollPosition },
+                      600
+                    );
+                  }
+                });*/
+      /*const carousel = document.querySelector('#carousell');
+      const inner = document.querySelector('#carousel-inner');
+      const items = document.querySelectorAll('#carousel-item');
+      const itemWidth = items[0].clientWidth; // Assuming all items have the same width
+      let currentIndex = 0;
+      let index = 0;
+
+      const nextButton = document.getElementById('next-button');
+      const prevButton = document.getElementById('prev-button');
+
+      function displayItemAtCurrentIndex() {
+
+          items.forEach((item) =>{ 
+            item.classList.remove('active');
+            index += 1;
+            item.classList.toggle('active', index === currentIndex);
+          });
+
+          //items[currentIndex].classList.add('active');
+      }
+
+      nextButton.addEventListener('click', () => {
+          currentIndex = (currentIndex + 1) % items.length;
+          index += 1;
+          item.classList.toggle('active', index === currentIndex);
+          updateCarousel();
+          //displayItemAtCurrentIndex();
+      });
+
+      prevButton.addEventListener('click', () => {
+          currentIndex = (currentIndex - 1) % items.length;
+          index -= 1;
+          item.classList.toggle('active', index === currentIndex);
+
+          updateCarousel();
+          //displayItemAtCurrentIndex();
+      });
+
+      function updateCarousel() {
+          const offset = currentIndex + itemWidth;
+          inner.style.transform = `translateX(${offset}px)`;
+      }
+
+      /*function displayCurrentItem() {
+          items.forEach((item, index) => {
+              item.classList.toggle('active', index === currentIndex);
+          });
+      }*/
+
+
+    
+  </script>
+{% endblock %}

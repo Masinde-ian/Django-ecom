@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    #card-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between; /* Distribute cards evenly */
+    }
+
+    #card {
+        width: calc(40% - 10px); /* Two cards per row on small screens */
+        margin-bottom: 20px;
+        /* Add other card styling (e.g., background, padding, etc.) here */
+    }
+
+    @media (min-width: 992px) {
+        /* Large screens (lg) */
+        #card {
+            width: calc(25% - 20px); /* Four cards per row on large screens */
+        }
+    }
+</style>
+
+<div class="container-fluid">
+    <div class="row my-3 mx-0 px-0">
+        <div class="col-12 col-lg-3 m-0 px-0 py-5">
+            <div class="accordion" id="accordionPanelsStayOpenExample">
+                <div class="accordion-item">
+                  <h2 class="accordion-header bg-success-subtle" id="panelsStayOpen-headingOne">
+                    <button class="accordion-button bg-success p-1" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                      <span class="fw-bold text-white fs-3 m-0">Price</span>
+                    </button>
+                  </h2>
+                  <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                    <div class="accordion-body">
+                      <div>
+                        <span>0</span>
+                        <input type="range" name="price" id="price-range">
+                        <span>60,000</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header bg-success-subtle" id="panelsStayOpen-headingOne">
+                      <button class="accordion-button bg-success p-1" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                        <span class="fw-bold text-white fs-3 m-0">Brands</span>
+                      </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                      <div class="accordion-body">
+                        <div data-bs-spy="scroll">
+                            <ul>
+                                <li>
+                                    <div class="input-group">
+                                        <input type="checkbox">
+                                        <span></span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+              </div>
+        </div>
+        <main class="col-12 col-lg-9 d-block mx-0 px-0">
+            <h2 class="text-center text-primary-emphasis">{{ condition }}</h2>
+            <div class="d-flex flex-wrap" id="card-container">
+            {% for product in products %}
+                {% if product.discount > 0 %}
+                  {% include 'offercard.html' with product=product %}                    
+                {% else %}
+                  {% include 'pricecard.html' with product=product %}
+                {% endif %}
+            {% endfor %}
+            </div>
+        </main>
+        
+    </div>
+</div>
+{% endblock %}

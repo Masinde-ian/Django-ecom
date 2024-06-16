@@ -1,0 +1,195 @@
+{% load static %}
+{% load bootstrap5 %}
+  {% bootstrap_css %}
+  {% bootstrap_javascript %}
+<!--Navigation-->
+ 
+    <nav class="navbar bg-light navbar-expand-lg z-0 p-0">
+        <div class="container-fluid">
+            <button class="navbar-toggler border-0 p-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#main-nav" aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="offcanvas navbar-offcanvas offcanvas-start" tabindex="-1" data-bs-backdrop="false" data-bs-scroll="true" id="main-nav">
+              <button type="button" class="btn-close text-reset d-lg-none" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+              <div class="offcanvas-body">
+                <ul class="navbar-nav nav-tabs justify-content-start flex-grow-1 pe-3">
+                  <!--shop by Category-->
+                    <li class="nav-item">
+                        <div class="btn-group dropend justify-content-between btn-b">
+                          <a href="" class="nav-link">Shop by Category</a>
+                          <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false"  id="dropdownMenuClickableInside" data-bs-auto-close="outside">
+                            <span class="visually-hidden">Toggle Dropend</span>
+                          </button>
+                          <ul class="dropdown-menu border-1 border-primary" aria-labelledby="dropdownMenuClickableInside">
+                            <!--vitamins and supplements-->
+                            <li class="">
+                              <div class="d-flex position-relative">
+                                <button type="button" class="dropdown-item" data-bs-toggle="collapse" href="#vit-supplements" aria-expanded="false" aria-controls="vit-supplements">
+                                  <span>V &amp; Supplements</span>
+                                </button>                                               
+                              </div>
+                              <div class="collapse position-absolute start-100" id="vit-supplements">
+                                <div class="container p-3 d-inline-block">
+                                  <div class="justify-content-around">                                                  
+                                      <a href="{% url 'shop:category' 'Supplement' %}" class="fw-bold text-decoration-none text-primary">Suplements</a><br>
+                                      <a href="{% url 'shop:category' 'Vitamin' %}" class="fw-bold text-decoration-none text-primary">Vitamins</a>                                                                                     
+                                  </div>
+                                </div>
+                              </div>
+                            </li>
+                            <!--hair care-->
+                            <li class="">
+                              <div class="d-flex position-relative">                              
+                                <button type="button" class="dropdown-item" data-bs-toggle="collapse" data-bs-target="#hair-c" aria-expanded="false" id="subdd">
+                                  <span>Hair Care</span>
+                                </button>
+                              </div>
+                              <div class="collapse dropdown-menu position-absolute start-100 top-0" id="hair-c">
+                                <div class="container shadow-lg p-3 d-inline-block" style="width: 30vw;">
+                                  <div class="justify-content-around">                                                  
+                                    <a href="" class="fw-bold text-decoration-none text-primary">Shampoos</a><br>
+                                    <a href="" class="fw-bold text-decoration-none text-primary">Conditioners</a><br>
+                                    <a href="" class="fw-bold text-decoration-none text-primary">Treatment</a><br>
+                                    <a href="" class="fw-bold text-decoration-none text-primary">Oils</a>                                                                                    
+                                  </div>                                                 
+                                </div>
+                              </div>
+                            </li>
+                            <!--skin care-->
+                            <li class="">
+                              <div class="d-flex position-relative">
+                                <a href="" class="dropdown-item">
+                                  Skin Care
+                                </a>                                              
+                              </div>                                             
+                            </li>
+                            <!--personal care-->
+                            <li class="">
+                              <div class="d-flex position-relative">                              
+                                <button type="button" class="dropdown-item" data-bs-toggle="collapse" data-bs-target="#personal-c" aria-expanded="false">
+                                  <span>Personal Care</span>
+                                </button>
+                              </div>
+                              <div class="collapse dropdown-menu position-absolute start-100 top-0" id="personal-c">
+                                <div class="container shadow-lg p-3 d-inline-block" style="width: 30vw;">
+                                  <div class="justify-content-around">                                                  
+                                    <a href="" class="fw-bold text-decoration-none text-primary">Grooming</a><br>
+                                    <a href="" class="fw-bold text-decoration-none text-primary">Oral</a><br>
+                                    <a href="" class="fw-bold text-decoration-none text-primary">Sanitary</a>                                                                                    
+                                  </div>
+                                </div>
+                              </div>
+                            </li>
+                            <!--Diagnostic Devices and Kits-->
+                            <li class="">
+                              <div class="d-flex position-relative">
+                                <button type="button" class="dropdown-item" data-bs-toggle="collapse" data-bs-target="#medicinal-k" aria-expanded="false">
+                                  <span>Medical Kits</span>
+                                </button>
+                              </div>
+                              <div class="collapse dropdown-menu position-absolute start-100 top-0" id="medicinal-k">
+                                <div class="container shadow-lg p-3 d-inline-block" style="width: 30vw;">
+                                  <div class="justify-content-around">                                                  
+                                    <a href="" class="fw-bold text-decoration-none text-primary">Devices</a><br>
+                                    <a href="" class="fw-bold text-decoration-none text-primary">Self Help(Personal Tests)</a><br>
+                                    <a href="" class="fw-bold text-decoration-none text-primary">First Aid</a>                                                                                  
+                                  </div>
+                                </div>
+                              </div>
+                            </li>
+                            <!--Mother and Baby-->
+                            <li class="">
+                              <div class="d-flex position-relative">                              
+                                <button type="button" class="dropdown-item" data-bs-toggle="collapse" data-bs-target="#mother-baby" aria-expanded="false">
+                                  <span>Mother &amp; Baby</span>
+                                </button>
+                              </div>
+                              <div class="collapse dropdown-menu position-absolute start-100 top-0" id="mother-baby">
+                                <div class="container shadow-lg p-3 d-inline-block" style="width: 30vw;">
+                                  <div class="justify-content-around">                                                  
+                                    <a href="" class="fw-bold text-decoration-none text-primary">Mother</a><br>
+                                    <a href=""class="fw-bold text-decoration-none text-primary">Baby</a><br>                                                                                                                            
+                                  </div>
+                                </div>
+                              </div>
+                            </li>
+                            <!--Family Planning-->
+                            <li class="">
+                              <div class="d-flex position-relative">
+                                <a href="" class="dropdown-item">
+                                  Family Planning
+                                </a>                                               
+                              </div>                                             
+                            </li>
+                            <!--First Aid-->
+                            <li class="">
+                              <a href="" class="dropdown-item">First Aid</a>
+                            </li>
+                          </ul>
+                        </div>
+                    </li>
+                    <!--shop by Condition-->
+                    <li class="nav-item">
+                        <div class="btn-group dropend justify-content-between btn-b">
+                          <a href="" class="nav-link">Shop by Condition</a>
+                          <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false" id="DropdownMenuClickableInside" data-bs-auto-close="outside">
+                            <span class="visually-hidden">Toggle Dropend</span>
+                          </button>
+                          <ul class="dropdown-menu border-1 border-primary" aria-labelledby="DropdownMenuClickableInside">
+                            <li class=""><a href="{% url 'shop:condition' 'condition1' %}" class="dropdown-item">Stomach Care</a></li>
+                            <li class=""><a href="{% url 'shop:condition' 'condition2' %}" class="dropdown-item">Pain Relievers</a></li>
+                            <li class=""><a href="" class="dropdown-item">Bone,Joints and Muscle</a></li>                                           
+                            <li class=""><a href="" class="dropdown-item">Eye Care</a></li>
+                            <li class=""><a href="" class="dropdown-item">Ear Care</a></li>
+                            <li class=""><a href="" class="dropdown-item">Oral Care</a></li>
+                            <li class=""><a href="" class="dropdown-item">Cold,flu and Cough</a></li>
+                            <li class=""><a href="" class="dropdown-item">Brain and Nervous Disorder</a></li>
+                            <li class=""><a href="" class="dropdown-item">Diabetes</a></li>
+                            <li class=""><a href="" class="dropdown-item">Reproductive</a></li>
+                            <li class=""><a href="" class="dropdown-item">Hypertension</a></li>
+                            <li class=""><a href="" class="dropdown-item">Endocrine Disorders</a></li>
+                            <li class=""><a href="" class="dropdown-item">Allergies</a></li>
+                            <li class=""><a href="" class="dropdown-item">Bacterial,Fungal and Protozoal infections</a></li>
+                            <li class=""><a href="" class="dropdown-item">STD's</a></li>
+                          </ul>
+                        </div>
+                    </li>
+                    <!--Health Center-->
+                    <li class="nav-item">
+                        <div class="btn-group dropend justify-content-between btn-b">
+                          <a href="" class="nav-link">Health Center</a>
+                          <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span class="visually-hidden">Toggle Dropend</span>
+                          </button>
+                          <ul class="dropdown-menu border-1 border-primary bg-success">
+                            <li class=""><a href="#" class="dropdown-item fw-semibold">Chronic illnesses</a></li>
+                            <li class=""><a href="#" class="dropdown-item fw-semibold">Asthma</a></li>
+                            <li class=""><a href="#" class="dropdown-item fw-semibold">Skin Care</a></li>
+                            <li class=""><a href="#" class="dropdown-item fw-semibold">Sexuall Wellness</a></li>
+                            <li class=""><a href="#" class="dropdown-item fw-semibold">Self Diagnos kits</a></li>
+                            <li class=""><a href="#" class="dropdown-item fw-semibold">Mother and Baby</a></li>
+                          </ul>
+                        </div>
+                    </li>
+                    <!--Offers-->
+                    <li class="nav-item bg-warning">                                      
+                      <a href="" class="nav-link fw-bolder text-primary">Offers</a>
+                    </li>
+                    <!--Submit Prescription-->
+                    <li class="nav-item">
+                        <a class="nav-link" href="">Submit prescription</a>
+                    </li>
+                </ul>
+                <!--Delivery Location-->
+                <div class="btn btn-outline-primary">
+                  <a href="#" class="text-decoration-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
+                      <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/>
+                    </svg>
+                    <span class="fw-bold text-success">Delivery Location</span>
+                  </a>                                 
+                </div>
+              </div>
+            </div>
+        </div> 
+    </nav>
