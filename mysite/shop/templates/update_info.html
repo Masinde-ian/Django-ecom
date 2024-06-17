@@ -44,7 +44,7 @@
     <form class="form-control" id="form" method="POST" action="{% url 'shop:update_info' %}">
         {% csrf_token %}
 
-        {{ form.as_p }}
+        {{ u_form.as_p }}
 
         <strong>Fill profile info later click here to go to <a href="{% url 'shop:home' %}">Home!</a> </strong>
         

@@ -5,6 +5,7 @@ from .models import Product, Category, Condition, Profile
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm,UserChangeForm, SetPasswordForm
@@ -127,32 +128,54 @@ def update_password(request):
 		return redirect('shop:home')
 
 
-def update_info(request):
-	if request.user.is_authenticated:
-		# Get Current User
-		current_user_profile = User.objects.get(id=request.user.id)
-        # current_user = Profile.objects.get(user_id=request.user.id)
-        # current_user = Profile.objects.get(user_id=request.user.id)
-		# Get Current User's Shipping Info
-		#shipping_user = ShippingAddress.objects.get(user__id=request.user.id)
+# def update_info(request):
+# 	if request.user.is_authenticated:
+# 		# Get Current User
+# 		current_user_profile = User.objects.get(id=request.user.id)
+#         # current_user = Profile.objects.get(user_id=request.user.id)
+#         # current_user = Profile.objects.get(user_id=request.user.id)
+# 		# Get Current User's Shipping Info
+# 		#shipping_user = ShippingAddress.objects.get(user__id=request.user.id)
 		
-		# Get original User Form
-		form = UserInfoForm(request.POST or None, instance=current_user_profile)
-		# Get User's Shipping Form
-		#shipping_form = ShippingForm(request.POST or None, instance=shipping_user)		
-		if form.is_valid(): # or shipping_form.is_valid():
-			# Save original form
-			form.save()
-			# Save shipping form
-			#shipping_form.save()
+# 		# Get original User Form
+# 		u_form = UserInfoForm(request.POST or None, instance=current_user_profile)
+# 		# Get User's Shipping Form
+# 		#shipping_form = ShippingForm(request.POST or None, instance=shipping_user)		
+# 		if u_form.is_valid(): # or shipping_form.is_valid():
+# 			# Save original form
+# 			u_form.save()
+# 			# Save shipping form
+# 			#shipping_form.save()
 
-			messages.success(request, "Your Info Has Been Updated!!")
-			return redirect('shop:home')
-		return render(request, "update_info.html", {'form':form,})
-	else:
-		messages.success(request, "You Must Be Logged In To Access That Page!!")
-		return redirect('shop:home')
+# 			messages.success(request, "Your Info Has Been Updated!!")
+# 			return redirect('shop:home')
+# 		return render(request, "update_info.html", {'u_form':u_form,})
+# 	else:
+# 		messages.success(request, "You Must Be Logged In To Access That Page!!")
+# 		return redirect('shop:home')
 
+def update_info(request):
+    current_user = request.user
+
+    # Try to get the user's profile; create one if it doesn't exist
+    try:
+        current_profile = Profile.objects.get(user=current_user)
+    except Profile.DoesNotExist:
+        current_profile = Profile(user=current_user)
+
+    if request.method == 'POST':
+        u_form = UserInfoForm(request.POST, instance=current_user)
+        if u_form.is_valid():
+            u_form.save()
+            messages.success(request, "Your info has been updated successfully.")
+            return redirect('shop:home')
+        else:
+            messages.error(request, "Please correct the errors below.")
+    else:
+        u_form = UserInfoForm(instance=current_user)
+    return render(request, 'update_info.html', {
+        'u_form': u_form,
+    })
 
 def update_user(request):
 	if request.user.is_authenticated:
