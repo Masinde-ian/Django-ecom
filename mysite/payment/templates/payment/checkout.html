@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+        <!-- Header-->
+        <header class="bg py-2 text-center">
+            <h3 class="display-4 fw-bolder">Checkout</h3>
+            <p class="lead fw-normal mb-0">Review Your Order...</p>
+        </header>
+        <br/>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 offset-md-3">
+                    <div class="card m-2">
+                        <div class="card-header">
+                            Order Summary
+                        </div>
+                        <div class="card-body">
+                            {% for item in cart.items.all %}
+                                {{ item.product.name }}: 
+                                {% if item.product.discount > 0 %}
+                                    ksh{{ item.product.new_price }}
+                                {% else %}
+                                    ksh{{ item.product.price }}
+                                {% endif %}
+
+                                <br/>
+                                <small>Quantity: {{ item.quantity }} </small>
+                                <br/><br/>
+
+                            {% endfor %}
+                            Total:  ksh {{ cart.total_price_sum }}
+                            <br/><br/>
+                            <a href="{% url 'Cart:cart_summary' %}" class="btn btn-sm btn-outline-primary">Update Items</a>
+                        </div>
+                    </div>
+                    <br/><br/>
+                    <div class="card m-2">
+                        <div class="card-header">
+                            Shipping Info
+                        </div>
+                        <div class="card-body">
+                            <form method="POST" action="{% url 'payment:checkout' %}">
+                                {% csrf_token %}
+                                {{ s_form.as_p }}
+                                <br/>
+                                <button type="submit" class="btn btn-primary">Payment</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+{% endblock %}

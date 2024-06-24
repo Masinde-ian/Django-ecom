@@ -28,26 +28,25 @@
                 </div>
                 <!--account,cart-->
                 <div class="col-5 col-lg-5 ms-lg-1">
-                  <div class="row justify-content-evenly border-start border-primary border-4 my-3">
+                  <div class="row justify-content-evenly border-start border-primary border-2 p-1 my-3">
                     <div class="d-flex row">
                       <!--account--> 
                       {% if user.is_authenticated %}
-                      <div class="col p-0">
-                        <a href="#" id="account" class="text-decoration-none" role="button">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-person" viewBox="0 0 14 14">
+                      <div class="col p-0 d-flex justify-content-start">
+                        <a href="{% url 'shop:account_info' %}" id="account" class="text-decoration-none d-flex flex-column align-items-center" role="button">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" fill="currentColor" class="bi bi-person" viewBox="0 0 14 14">
                               <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
-                            </svg>
-                          <span class="text-black text-decoration-none d-none d-sm-inline-grid">Account</span>
+                          </svg>
+                          <span class="text-black text-decoration-none d-none d-md-inline-block">Account</span>
                         </a>
-                        <a href="{% url 'logout' %}" class="btn btn-outline-light btn-light text-dark p-1">Logout</a>
                       </div>
                       {% else %}
-                      <div class="col p-0">
-                          <a href="#account1" id="account" class="text-decoration-none" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="account1">
-                              <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-person" viewBox="0 0 14 14">
+                      <div class="col p-0 d-flex justify-content-start">
+                          <a href="#account1" id="account" class="text-decoration-none d-flex flex-column align-items-center" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="account1">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" fill="currentColor" class="bi bi-person" viewBox="0 0 14 14">
                                   <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
                                 </svg>
-                              <span class="text-black text-decoration-none d-none d-sm-inline-grid">Account</span>
+                              <span class="text-black text-decoration-none d-none d-md-inline-block">Account</span>
                           </a>
                           <div class="collapse z-2 position-absolute start-0" id="account1" style="z-index: 1;">
                               <div class="card " style="display: inline-block;">
@@ -107,25 +106,24 @@
                       <!--Cart--> 
                       {% if user.is_authenticated %}
                       <div class="col p-0 mx-1">
-                        <a href="{% url 'Cart:cart_summary' %}" id="cart" class="text-decoration-none" role="button">
-                          <span class="shadow-sm bg-primary p-1 rounded-5 text-white" id="cart_quantity">{{ cart_total_items  }}</span>
+                        <a href="{% url 'Cart:cart_summary' %}" id="cart" class="text-decoration-none d-flex flex-column align-items-center" role="button">
+                          <span class="shadow-sm bg-primary p-1 rounded-5 text-white" id="cart_quantity">{{ cart.total_quantity }}</span>
                           <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-basket2" viewBox="0 0 16 16">
                               <path d="M4 10a1 1 0 0 1 2 0v2a1 1 0 0 1-2 0zm3 0a1 1 0 0 1 2 0v2a1 1 0 0 1-2 0zm3 0a1 1 0 1 1 2 0v2a1 1 0 0 1-2 0z"/>
                               <path d="M5.757 1.071a.5.5 0 0 1 .172.686L3.383 6h9.234L10.07 1.757a.5.5 0 1 1 .858-.514L13.783 6H15.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-.623l-1.844 6.456a.75.75 0 0 1-.722.544H3.69a.75.75 0 0 1-.722-.544L1.123 8H.5a.5.5 0 0 1-.5-.5v-1A.5.5 0 0 1 .5 6h1.717L5.07 1.243a.5.5 0 0 1 .686-.172zM2.163 8l1.714 6h8.246l1.714-6z"/>
                           </svg>
-                          <span class="text-black text-decoration-none d-none d-sm-inline-grid">Cart</span>
+                          <span class="text-black text-decoration-none d-none d-md-inline-block">Cart</span>
                       </a>
-                      <a href="{% url 'shop:update_user' %}" class="btn btn-outline-light btn-light text-dark p-1">User</a>
                       </div>
                       {% else %}
                       <div class="col p-0 mx-1">
-                          <a href="#cart1" id="cart" class="text-decoration-none" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="cart1">
+                          <a href="#cart1" id="cart" class="text-decoration-none d-flex flex-column align-items-center" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="cart1">
                               <span class="shadow-sm bg-primary p-1 rounded-5 text-white">0</span>
                               <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-basket2" viewBox="0 0 16 16">
                                   <path d="M4 10a1 1 0 0 1 2 0v2a1 1 0 0 1-2 0zm3 0a1 1 0 0 1 2 0v2a1 1 0 0 1-2 0zm3 0a1 1 0 1 1 2 0v2a1 1 0 0 1-2 0z"/>
                                   <path d="M5.757 1.071a.5.5 0 0 1 .172.686L3.383 6h9.234L10.07 1.757a.5.5 0 1 1 .858-.514L13.783 6H15.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-.623l-1.844 6.456a.75.75 0 0 1-.722.544H3.69a.75.75 0 0 1-.722-.544L1.123 8H.5a.5.5 0 0 1-.5-.5v-1A.5.5 0 0 1 .5 6h1.717L5.07 1.243a.5.5 0 0 1 .686-.172zM2.163 8l1.714 6h8.246l1.714-6z"/>
                               </svg>
-                              <span class="text-black text-decoration-none d-none d-sm-inline-grid">Cart</span>
+                              <span class="text-black text-decoration-none d-none d-md-inline-block">Cart</span>
                           </a>
                           <div id="cart1" class="collapse z-2 position-absolute start-0">
                               <div class="card border-primary-subtle rounded-0 shadow-lg" style="display: inline-block;">

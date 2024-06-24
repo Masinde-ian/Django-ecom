@@ -1,37 +1,21 @@
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="description" content="">
-        <meta name="author" content="Ian Masinde">
-        <meta name="generator" content="Jekyll v3.8.5">
-        <title>User Profile</title>
 
-        <!--<link rel="stylesheet" href="">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">-->
+{% extends 'base.html' %}
+
+{% block content %}  
+  <style>
         
-        {% load bootstrap5 %}
-        {% bootstrap_css %}
-        {% bootstrap_javascript %}
-      
-        <style>
-        
-        @media (min-width: 768px) {
-            #form {
-            width: 50vw;
-            }
+    @media (min-width: 768px) {
+        #form {
+        width: 50vw;
         }
-        @media (max-width: 768px) {
-            #form {
-            width: 75vw;
-            }
+    }
+    @media (max-width: 768px) {
+        #form {
+        width: 75vw;
         }
-        </style>
-        <!-- Custom styles for this template -->
-        <!--<link href="signin.css" rel="stylesheet">-->
-  </head>
-  <body class="text-center d-flex justify-content-center align-items-center">
-    <div>
+    }
+    </style>
+     <div>
       {% if messages %}
       {% for message in messages %}
       <div class="alert alert-warning alert-dismissible fade show position-absolute top-0" role="alert">
@@ -39,7 +23,14 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
       {% endfor %}
-    {% endif %}
+      {% endif %}
+<body class="container-fluid d-block">
+<div class="d-flex" >
+  <div class="d-inline-block mt-3" >
+    {% include 'account_info.html' %}
+  </div>
+
+  <div class="text-center d-flex flex-column justify-content-center align-items-center mx-5 my-2">
     <h3 class="text-center text-primary fw-bold">User Profile</h3>      
     <form class="form-control" id="form" method="POST" action="{% url 'shop:update_user' %}">
         {% csrf_token %}
@@ -53,8 +44,13 @@
         </div>
         <p class="mt-5 mb-3 text-muted">© 2024</p>
     </form>
-    </div>
+        
+  </div>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-  </body>
-</html>
+  </div>
+</div>
+  
+  
+</body>
+{% endblock %}

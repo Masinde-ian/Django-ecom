@@ -17,8 +17,8 @@ class Cart:
         self.request.session['cart'] = self.cart
         self.request.session.modified = True
 
-    def total_items(self):
-        return sum(self.cart.values())
+    # def total_items(self):
+    #     return sum(self.cart.values())
 
 
     # def __init__(self, request):

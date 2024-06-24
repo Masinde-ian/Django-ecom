@@ -25,6 +25,7 @@ app_name='mysite'
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('shop.urls')),
+    path('payment/',include('payment.urls')),
     path('cart/',include('Cart.urls')),
     path('login/', auth_views.login_user, name='login'),
     path('logout/', auth_views.logout_user, name='logout'),

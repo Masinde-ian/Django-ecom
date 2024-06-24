@@ -21,7 +21,7 @@
     {% for item in cart.items.all %}
         <tr class="align-content-center">
             <td>
-                <a href="{{ item.product.get_absolute_url }}">
+                <a href="{{ item.product.get_absolute_url }} {% url 'shop:product' item.product.id %}">
                     <img src="{% if item.product.image %}{{ item.product.image.url }}
                     {% else %}{% static 'img/edit.png' %}{% endif %}">
                 </a>
@@ -44,16 +44,14 @@
             <td>{{ cart.total_quantity }}</td>
             <td> Total </td>
             <td>{{ cart.price_sum }} </td>
-            <td>{{ cart.total_price_sum }}</td>
+            <td class="fw-bolder" >Ksh {{ cart.total_price_sum }}</td>
         </tr>
     </tbody>
 </table>
 <p class="text-right">
 <a href="{% url 'shop:home' %}" class="button
 light">Continue shopping</a>
-<!--<a href="" class="button">
-    Checkout
-    </a>-->
+<a href="{% url 'payment:checkout' %}" class="btn btn-success">Checkout</a>
 </p>
 {% endblock %}
 

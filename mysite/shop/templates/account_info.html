@@ -1,0 +1,68 @@
+
+
+    <div class=" d-flex flex-column flex-sm-shrink-5 p-3 bg-light" style="width: 280px; height: 100vh;" id="nav">
+        <a href="" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+          <span class="fs-4 fw-bold">Account</span>
+        </a>
+        <hr>
+        <ul class="nav nav-pills flex-column mb-auto">
+          <li class="nav-item">
+            <a href="/" class="nav-link active" aria-current="page">
+              Home
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'shop:update_user' %}" class="nav-link link-dark">
+              Profile
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'shop:update_password' %}" class="nav-link link-dark">
+              Change Password
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'shop:update_info' %}" class="nav-link link-dark">
+              Delivery
+            </a>
+          </li>
+          <!-- <li>
+            <a href="#" class="nav-link link-dark">
+              Customers
+            </a>
+          </li> -->
+          {% if user.is_superuser %}
+            <hr>
+            <ul class="nav nav-pills flex-column mb-auto">
+                <li class="nav-item">
+                <a href="#" class="nav-link active" aria-current="page">
+                    Orders
+                </a>
+                </li>
+                <li>
+                <a href="#" class="nav-link link-dark">
+                    Admin
+                </a>
+                </li>
+                <li>
+                    <a href="#" class="nav-link link-dark">
+                    Other
+                    </a>
+                </li>
+            </ul>
+            {% endif %}
+        </ul>
+        <hr>
+        <div class="dropdown">
+          <a href="#" class="d-flex align-items-center link-dark text-decoration-none" >
+            <strong class="btn btn-success">Logout</strong>
+          </a>
+          <!-- <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
+            <li><a class="dropdown-item" href="#"></a></li>
+            <li><a class="dropdown-item" href="#"></a></li>
+            <li><a class="dropdown-item" href="#"></a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#"></a></li>
+          </ul> -->
+        </div>
+    </div>

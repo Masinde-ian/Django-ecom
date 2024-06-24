@@ -12,6 +12,9 @@ from django.contrib.auth.forms import UserCreationForm,UserChangeForm, SetPasswo
 from .forms import SignUpForm, UpdateUserForm, ChangePasswordForm, UserInfoForm, LoginForm
 from django import forms
 
+from payment.forms import ShippingForm
+from payment.models import ShippingAddress
+
 from Cart.cart import Cart
 
 from django.db.models import Q
@@ -48,6 +51,9 @@ def home(request):
     return render(request, 'home.html', {
         'products':products,
     })
+
+def account_info(request):
+    return redirect("shop:update_info")
 
 def product(request,pk):
     product = Product.objects.get(id = pk)
@@ -155,27 +161,34 @@ def update_password(request):
 # 		return redirect('shop:home')
 
 def update_info(request):
-    current_user = request.user
+    # current_user = request.user
+    current_user = Profile.objects.get(user__id=request.user.id)
 
     # Try to get the user's profile; create one if it doesn't exist
-    try:
-        current_profile = Profile.objects.get(user=current_user)
-    except Profile.DoesNotExist:
-        current_profile = Profile(user=current_user)
+    # current_profile, created = Profile.objects.get_or_create(user=current_user)
+    shipping_user, created = ShippingAddress.objects.get_or_create(user_id=request.user.id)
 
     if request.method == 'POST':
         u_form = UserInfoForm(request.POST, instance=current_user)
-        if u_form.is_valid():
+        s_form = ShippingForm(request.POST, instance = shipping_user)
+        if u_form.is_valid() and s_form.is_valid():
+            # saving info form
             u_form.save()
+            # saving shipping form
+            s_form.save()    
             messages.success(request, "Your info has been updated successfully.")
             return redirect('shop:home')
         else:
             messages.error(request, "Please correct the errors below.")
     else:
         u_form = UserInfoForm(instance=current_user)
+        s_form = ShippingForm(instance=shipping_user)
+
     return render(request, 'update_info.html', {
         'u_form': u_form,
+        's_form': s_form,
     })
+
 
 def update_user(request):
 	if request.user.is_authenticated:
