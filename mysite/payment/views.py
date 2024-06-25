@@ -12,26 +12,82 @@ from django.contrib.auth.models import User
 
 from django.contrib import messages
 
+import datetime
+
 # Create your views here.
 
-def orders(request):
-    order = Cart.objects.get(user=request.user)
-    orders = Order.objects.all()
-    item = Order.objects.all()
-    return render(request, 'Admin/orders.html', {
-        'orders':orders,
-        'item':item
-    })
+
+def view_order(request, pk):
+	if request.user.is_authenticated and request.user.is_superuser:
+		# Get the order
+		order = Order.objects.get(id=pk)
+		# Get the order items
+		items = OrderItem.objects.filter(order=pk)
+
+		if request.POST:
+			status = request.POST.get('delivery_status')
+			# Check if true or false
+			if status == "true":
+				# Get the order
+				order = Order.objects.filter(id=pk)
+				# Update the status
+				now = datetime.datetime.now()
+				order.update(deliverd=True, date_delivered=now)
+			else:
+				# Get the order
+				order = Order.objects.filter(id=pk)
+				# Update the status
+				order.update(delivered=False)
+			messages.success(request, "Delivery Status Updated")
+			return redirect(request.META.get('HTTP_REFERER', '/'))
+		return render(request, 'admin/orders.html', {"order":order, "items":items})
+	else:
+		messages.success(request, "Access Denied")
+		return redirect('home')
 
 
-def delivered_orders(request):
-    # cart = Cart.objects.get(user=request.user)
-    if request.user.is_authenticated:
-        cart, created = Cart.objects.get_or_create(user=request.user)
-        return render(request, 'cart_summary.html', {'cart': cart})
-    else:
-        # Handle the case where the user is not logged in
-        return redirect('shop:home')
+
+def undelivered_dash(request):
+	if request.user.is_authenticated and request.user.is_superuser:
+		orders = Order.objects.filter(delivered = False)
+		if request.POST:
+			status = request.POST.get('delivery_status')
+			num = request.POST['num']
+			# Get the order
+			order = Order.objects.filter(id=num)
+			# grab Date and time
+			now = datetime.datetime.now()
+			# update order
+			order.update(delivered = True, date_delivered = now)
+			# redirect
+			messages.success(request, "Delivery Status Updated")
+			return redirect(request.META.get('HTTP_REFERER', '/'))
+
+		return render(request, "admin/undelivered.html", {"orders":orders})
+	else:
+		messages.success(request, "Access Denied")
+		return redirect('shop:home')
+
+
+def delivered_dash(request):
+	if request.user.is_authenticated and request.user.is_superuser:
+		orders = Order.objects.filter(delivered = True)
+		if request.POST:
+			status = request.POST.get('delivery_status')
+			num = request.POST['num']
+			# grab the order
+			order = Order.objects.filter(id=num)
+			# grab Date and time
+			now = datetime.datetime.now()
+			# update order
+			order.update(delivered = False)
+			# redirect
+			messages.success(request, "Shipping Status Updated")
+			return redirect(request.META.get('HTTP_REFERER', '/'))
+		return render(request, "admin/delivered.html", {"orders":orders})
+	else:
+		messages.success(request, "Access Denied")
+		return redirect('shop:home')
 
 def checkout(request):
     # Get the cart for the current user or create a new one

@@ -1,5 +1,7 @@
 
-
+{% load bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
     <div class=" d-flex flex-column flex-sm-shrink-5 p-3 bg-light" style="width: 280px; height: 100vh;" id="nav">
         <a href="" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
           <span class="fs-4 fw-bold">Account</span>
@@ -34,10 +36,20 @@
           {% if user.is_superuser %}
             <hr>
             <ul class="nav nav-pills flex-column mb-auto">
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                 <a href="#" class="nav-link active" aria-current="page">
                     Orders
                 </a>
+                </li> -->
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Orders
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                    <li><a class="dropdown-item" href="{% url 'payment:delivered_dash' %}">Delivered</a></li>
+                    <li><a class="dropdown-item" href="{% url 'payment:undelivered_dash' %}">Un-Delivered</a></li>
+                    <!-- <li><a class="dropdown-item" href="#">Something else here</a></li> -->
+                  </ul>
                 </li>
                 <li>
                 <a href="#" class="nav-link link-dark">
@@ -54,7 +66,7 @@
         </ul>
         <hr>
         <div class="dropdown">
-          <a href="#" class="d-flex align-items-center link-dark text-decoration-none" >
+          <a href="{% url 'logout' %}" class="d-flex align-items-center link-dark text-decoration-none" >
             <strong class="btn btn-success">Logout</strong>
           </a>
           <!-- <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
