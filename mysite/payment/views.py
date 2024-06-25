@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
 
+from .models import Order,OrderItem
+
 from Cart.cart import Cart
 from Cart.models import CartItem, Cart
 from shop.models import Profile
@@ -11,6 +13,25 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 
 # Create your views here.
+
+def orders(request):
+    order = Cart.objects.get(user=request.user)
+    orders = Order.objects.all()
+    item = Order.objects.all()
+    return render(request, 'Admin/orders.html', {
+        'orders':orders,
+        'item':item
+    })
+
+
+def delivered_orders(request):
+    # cart = Cart.objects.get(user=request.user)
+    if request.user.is_authenticated:
+        cart, created = Cart.objects.get_or_create(user=request.user)
+        return render(request, 'cart_summary.html', {'cart': cart})
+    else:
+        # Handle the case where the user is not logged in
+        return redirect('shop:home')
 
 def checkout(request):
     # Get the cart for the current user or create a new one

@@ -1,0 +1,42 @@
+<h2 class="fw-bold text-primary-emphasis my-1 text-center">Undelivered Orders</h2>
+<table class="table">
+    <thead>
+        <tr class="text-primary fs-6 fs-bg-4">
+            <th>Order</th>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Delivered</th>
+            <th>Unit price</th>
+            <th>Price</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for order in orders %}
+        <tr class="align-content-center">
+            <td>
+                <a href="{{ item.product.get_absolute_url }}">
+                    {{ order.id }}
+                </a>
+            </td>
+            <td class="fw-bolder">{{ order.item.name }}</td>
+            <td class="fw-bolder">{{ item.quantity }}</td>
+            <td class="">
+                <form action="" method="post">
+                    <input type="submit" value="Remove" class='btn btn-primary container-fluid p-0'>
+                    {% csrf_token %}
+                </form>
+            </td>
+            <td class="num">ksh {{ item.price }}</td>
+            <td class="num">ksh {{ item.total_price }}</td>
+        </tr>
+    {% endfor %}    
+        <tr class="total">
+            <td></td>
+            <td>Total</td>
+            <td>{{ cart.total_quantity }}</td>
+            <td> Total </td>
+            <td>{{ cart.price_sum }} </td>
+            <td class="fw-bolder" >Ksh {{ cart.total_price_sum }}</td>
+        </tr>
+    </tbody>
+</table>

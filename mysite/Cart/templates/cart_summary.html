@@ -48,10 +48,11 @@
         </tr>
     </tbody>
 </table>
-<p class="text-right">
+<p class="text-right d-flex">
 <a href="{% url 'shop:home' %}" class="button
 light">Continue shopping</a>
 <a href="{% url 'payment:checkout' %}" class="btn btn-success">Checkout</a>
+<a href="{% url 'payment:orders' %}" class="btn btn-success">Orders</a>
 </p>
 {% endblock %}
 
