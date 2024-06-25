@@ -1,9 +1,5 @@
 {% extends 'base.html' %}
 
-{% load bootstrap5 %}
-{% bootstrap_css %}
-{% bootstrap_javascript %}
-
 {% block content %}
 <style>
     #card-container {
@@ -25,17 +21,19 @@
         }
     }
 </style>
+
 <div class="container-fluid">
     <div class="row my-3 mx-0 px-0">
+        
         <div class="col-12 col-lg-3 m-0 px-0 py-5">
             <div class="accordion" id="accordionPanelsStayOpenExample">
                 <div class="accordion-item">
-                  <h2 class="accordion-header bg-success-subtle" id="o-ne">
-                    <button class="accordion-button bg-success p-1" type="button" data-bs-toggle="collapse" data-bs-target="#One" aria-expanded="true">
+                  <h2 class="accordion-header bg-success-subtle" id="panelsStayOpen-headingOne">
+                    <button class="accordion-button bg-success p-1" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
                       <span class="fw-bold text-white fs-3 m-0">Price</span>
                     </button>
                   </h2>
-                  <div id="One" class="accordion-collapse collapse show" aria-labelledby="#o-ne">
+                  <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
                     <div class="accordion-body">
                       <div>
                         <span>0</span>
@@ -66,7 +64,7 @@
                       </div>
                     </div>
                 </div>
-            </div>
+              </div>
         </div>
         <main class="col-12 col-lg-9 d-block mx-0 px-0">
             <h2 class="text-center text-primary-emphasis">{{ category.name }}</h2>

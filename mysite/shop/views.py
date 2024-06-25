@@ -52,6 +52,12 @@ def home(request):
         'products':products,
     })
 
+# def navbar(request):
+#     categories = Category.objects.all()
+#     context = {'categories': categories}
+#     # Other view logic...
+#     return render(request, 'my_template.html', context)
+
 def account_info(request):
     return redirect("shop:update_info")
 
@@ -61,17 +67,30 @@ def product(request,pk):
         'product':product,
     })
 
-def category(request,cat):
+def category(request, cat):
     cat = cat.replace('-', ' ')
     try:
-        category = Category.objects.get(name = cat)
-        products = Product.objects.filter(category = category,)
+        category_obj = Category.objects.get(name=cat)
+        products = Product.objects.filter(category=category_obj)
         return render(request, 'category.html', {
-            'products':products,
-            'category':category
+            'products': products,
+            'category': category_obj,
         })
-    except:
-        return redirect('home')
+    except Category.DoesNotExist:
+        # Handle the case when the category doesn't exist (e.g., redirect to home page)
+        return redirect('shop:home')
+
+# def sub_category(request,cat):
+#     cat = cat.replace('-', ' ')
+#     try:
+#         category = Category.objects.get(name = cat)
+#         products = Product.objects.filter(category = category,)
+#         return render(request, 'sub_category.html', {
+#             'products':products,
+#             'category':category
+#         })
+#     except:
+#         return redirect('home')
 
 def condition(request, cat):
     cat = cat.replace('-', ' ')
@@ -83,7 +102,7 @@ def condition(request, cat):
             'condition':condition
         })
     except:
-        return redirect('home')
+        return redirect('shop:home')
 from django.urls import reverse
 
 def login_user(request):

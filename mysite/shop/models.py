@@ -38,6 +38,12 @@ class Category(models.Model):
     def __str__ (self):
         return self.name
 
+class Sub_category(models.Model):
+    name = models.CharField(max_length = 60)
+    category = models.ForeignKey(Category, on_delete = models.CASCADE, default=1)
+
+    def __str__ (self):
+        return self.name
 
 class Condition(models.Model):
     name = models.CharField(max_length = 60)
@@ -60,6 +66,7 @@ class Product(models.Model):
     name = models.CharField(max_length = 100)
     price =  models.DecimalField(default = 0, decimal_places = 2, max_digits = 8)
     discount = models.DecimalField(default = 0, decimal_places = 2, max_digits = 6)
+    sub_category = models.ForeignKey(Sub_category, on_delete = models.CASCADE, default=1)
     category = models.ForeignKey(Category, on_delete = models.CASCADE, default=1)
     condition = models.ForeignKey(Condition, on_delete = models.CASCADE, default=1)
     description = models.CharField(max_length = 500, default = '', blank = True, null = True)
@@ -75,8 +82,17 @@ class Product(models.Model):
         return self.name
 
     def save(self, *args, **kwargs):
+        # Calculate the new price based on the discount
         self.new_price = self.price - self.discount
+
+        # Retrieve the category associated with the sub_category
+        if self.sub_category:
+            self.category = self.sub_category.category
+
+        # Call the superclass's save method
         super().save(*args, **kwargs)
+
+        
 
 class Order(models.Model):
     product = models.ForeignKey(Product, on_delete = models.CASCADE)
