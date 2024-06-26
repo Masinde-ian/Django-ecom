@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from django.template.response import TemplateResponse
 
-from .models import Product, Category, Condition, Profile
+from .models import Product, Category, Condition, Profile, Sub_category, Brand
+from .filters import ProductFilter
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
@@ -67,17 +68,46 @@ def product(request,pk):
         'product':product,
     })
 
+from django.db.models import Max, Min
+
 def category(request, cat):
     cat = cat.replace('-', ' ')
     try:
         category_obj = Category.objects.get(name=cat)
         products = Product.objects.filter(category=category_obj)
+        sub_categories = Sub_category.objects.filter(category=category_obj)
+        brands = Brand.objects.filter(product__category=category_obj).distinct()
+
+        # Handling brand and sub-category filtering
+        selected_brands = request.POST.getlist('brands')
+        selected_sub_categories = request.POST.getlist('sub_categories')
+
+        if selected_brands:
+            products = products.filter(brand__id__in=selected_brands)
+
+        if selected_sub_categories:
+            products = products.filter(sub_category__id__in=selected_sub_categories)
+
+        # Get Max and Min Value of Queryset
+        max_price = products.aggregate(Max('price'))['price__max']
+        min_price = products.aggregate(Min('price'))['price__min']
+        
+        # Split the range into 4 (adjust as needed)
+        range_step = (max_price - min_price) / 4
+
         return render(request, 'category.html', {
             'products': products,
             'category': category_obj,
+            'sub_categories': sub_categories,
+            'brands': brands,
+            'selected_brands': [int(b) for b in selected_brands],
+            'selected_sub_categories': [int(sc) for sc in selected_sub_categories],
+            'min_price': min_price,
+            'max_price': max_price,
+            'range_step': range_step,
         })
+
     except Category.DoesNotExist:
-        # Handle the case when the category doesn't exist (e.g., redirect to home page)
         return redirect('shop:home')
 
 # def sub_category(request,cat):
@@ -92,17 +122,51 @@ def category(request, cat):
 #     except:
 #         return redirect('home')
 
+# def condition(request, cat):
+#     cat = cat.replace('-', ' ')
+#     try:
+#         condition = Condition.objects.get(name = cat)
+#         products = Product.objects.filter(condition = condition,)
+#         return render(request, 'condition.html', {
+#             'products':products,
+#             'condition':condition
+#         })
+#     except:
+#         return redirect('shop:home')
+
 def condition(request, cat):
     cat = cat.replace('-', ' ')
     try:
         condition = Condition.objects.get(name = cat)
         products = Product.objects.filter(condition = condition,)
+        brands = Brand.objects.filter(product__condition=condition).distinct()
+
+        # Handling brand filtering
+        selected_brands = request.POST.getlist('brands')
+
+        if selected_brands:
+            products = products.filter(brand__id__in=selected_brands)
+
+        # Get Max and Min Value of Queryset
+        max_price = products.aggregate(Max('price'))['price__max']
+        min_price = products.aggregate(Min('price'))['price__min']
+        
+        # Split the range into 4 (adjust as needed)
+        range_step = (max_price - min_price) / 4
+
         return render(request, 'condition.html', {
-            'products':products,
-            'condition':condition
+            'products': products,
+            'condition': condition,
+            'brands': brands,
+            'selected_brands': [int(b) for b in selected_brands],
+            'min_price': min_price,
+            'max_price': max_price,
+            'range_step': range_step,
         })
-    except:
+
+    except Condition.DoesNotExist:
         return redirect('shop:home')
+        
 from django.urls import reverse
 
 def login_user(request):

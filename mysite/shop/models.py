@@ -60,6 +60,13 @@ class Customer(models.Model):
 
     def __str__ (self):
         return f'{self.first_name} {self.last_name}'
+
+
+class Brand(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+
+    def __str__(self):
+        return self.name
                   
 
 class Product(models.Model):
@@ -68,7 +75,7 @@ class Product(models.Model):
     discount = models.DecimalField(default = 0, decimal_places = 2, max_digits = 6)
     sub_category = models.ForeignKey(Sub_category, on_delete = models.CASCADE, default=1)
     category = models.ForeignKey(Category, on_delete = models.CASCADE, default=1)
-    condition = models.ForeignKey(Condition, on_delete = models.CASCADE, default=1)
+    condition = models.ForeignKey(Condition, on_delete = models.CASCADE, default=1, blank=True)
     description = models.CharField(max_length = 500, default = '', blank = True, null = True)
     image = models.ImageField(upload_to = 'media/product/')
     image2 = models.ImageField(upload_to = 'media/product/', blank=True, null=True)
@@ -76,7 +83,7 @@ class Product(models.Model):
     precaution = models.CharField(max_length = 400, default = '', blank = True, null = True)
     use = models.CharField(max_length = 500, default = '', blank = True, null = True)
     in_stock = models.IntegerField(default=1)
-    brand = models.CharField(max_length = 80, default = '', blank = True, null = True) 
+    brand = models.ForeignKey(Brand, on_delete = models.CASCADE, default=1,  blank = True, null = True) 
 
     def __str__ (self):
         return self.name
@@ -92,7 +99,8 @@ class Product(models.Model):
         # Call the superclass's save method
         super().save(*args, **kwargs)
 
-        
+
+
 
 class Order(models.Model):
     product = models.ForeignKey(Product, on_delete = models.CASCADE)
@@ -105,6 +113,8 @@ class Order(models.Model):
 
     def __str__ (self):
         return self.product
+
+
 
 '''class image(models.Model):
     name = models.CharField(max_length = 50, null=False, default=1) 
