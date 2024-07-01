@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if user.is_authenticated %} 
+	{% if user.id == post.author.id %}
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Edit Post</title>
+        </head>
+        <body>
+            <h1>Edit Post</h1>
+            <form method="post" class="form-control" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.media }}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-outline-primary">Update</button>
+            </form>
+        </body>
+        <script>
+            document.getElementById("id_title").classList.add("form-control");
+            document.getElementById("id_body").classList.add("form-control");
+        </script>
+
+        </html>
+    {% else %}
+		You are not authorized to view this page...
+	{% endif %}
+{% else %}
+	You are not authorized to view this page...
+{% endif %}
+
+{% endblock %}

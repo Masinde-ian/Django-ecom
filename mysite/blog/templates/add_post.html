@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+{% if user.is_authenticated %} 
+
+		<h1>Add Post...</h1>
+
+		<form method="POST" enctype="multipart/form-data">
+			{% csrf_token %}
+			{{ form.media }}
+			{{ form.as_p }}
+			<button class="btn btn-success" >Post</button>
+
+			<a href="{% url 'blog:add_category' %}" class="btn btn-outline-primary">add category</a>
+
+		<br/><br/>
+		<script>
+			var name = "{{ user.id }}";
+			document.getElementById("author").value = name;
+		</script>
+{% else %}
+You are not authorized to view this page...
+
+{% endif %}
+
+{% endblock %}

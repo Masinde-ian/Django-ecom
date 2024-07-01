@@ -67,7 +67,8 @@ class Brand(models.Model):
 
     def __str__(self):
         return self.name
-                  
+
+
 
 class Product(models.Model):
     name = models.CharField(max_length = 100)
@@ -77,13 +78,13 @@ class Product(models.Model):
     category = models.ForeignKey(Category, on_delete = models.CASCADE, default=1)
     condition = models.ForeignKey(Condition, on_delete = models.CASCADE, default=1, blank=True)
     description = models.CharField(max_length = 500, default = '', blank = True, null = True)
-    image = models.ImageField(upload_to = 'media/product/')
-    image2 = models.ImageField(upload_to = 'media/product/', blank=True, null=True)
+    image = models.ImageField(upload_to = 'product/')
+    image2 = models.ImageField(upload_to = 'product/', blank=True, null=True)
     new_price = models.DecimalField(decimal_places=2, blank=True, null=True, max_digits=8)
     precaution = models.CharField(max_length = 400, default = '', blank = True, null = True)
     use = models.CharField(max_length = 500, default = '', blank = True, null = True)
     in_stock = models.IntegerField(default=1)
-    brand = models.ForeignKey(Brand, on_delete = models.CASCADE, default=1,  blank = True, null = True) 
+    brand = models.ForeignKey(Brand, on_delete = models.CASCADE, default=1,  blank = True, null = True)
 
     def __str__ (self):
         return self.name
@@ -99,7 +100,13 @@ class Product(models.Model):
         # Call the superclass's save method
         super().save(*args, **kwargs)
 
+class Like(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return f"{self.user.username} likes {self.product}"
 
 
 class Order(models.Model):
@@ -114,6 +121,14 @@ class Order(models.Model):
     def __str__ (self):
         return self.product
 
+class Review(models.Model):
+	product = models.ForeignKey(Product, related_name="reviews", on_delete=models.CASCADE)
+	name = models.ForeignKey(User, on_delete=models.CASCADE)
+	body = models.TextField()
+	date_added = models.DateTimeField(auto_now_add=True)
+
+	def __str__(self):
+		return '%s - %s' % (self.post.title, self.name)
 
 
 '''class image(models.Model):

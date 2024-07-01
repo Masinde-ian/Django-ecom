@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+{% if user.is_authenticated %} 
+	{% if user.id == post.author.id %}
+	
+		<h1>Delete Post...</h1>
+
+		<h4 class="m-4 fw-bold">Delete: {{ post.title}}</h4>
+		<form method="POST" class="form-control">
+			{% csrf_token %}
+			<strong>Are you sure?!</strong><br/>
+			<button>Delete Post</button>
+		</form>
+		<br/><br/>
+
+	{% else %}
+		You are not authorized to view this page...
+	{% endif %}
+{% else %}
+	You are not authorized to view this page...
+{% endif %}
+
+
+{% endblock %}

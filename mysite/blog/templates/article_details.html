@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<body>
+	<h1>{{post.title}}</h1>
+    <div class="d-flex justify-content-between" >
+        <div>
+            <small>By: {{ post.author }} -</small><br/> - {{ post.pub_date }} - {{ post.timestamp }}
+        </div>
+        <div>
+            <form action="{% url 'blog:like_post' post.pk %}" method="POST">
+                {% csrf_token %}
+            
+            {% if user.is_authenticated %}
+                {% if liked %}
+                    <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-danger btn-sm">Unlike</button> 
+                {% else %}	
+                    <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-primary btn-sm">Like</button> 
+        
+                {% endif %}
+            {% else %}
+                <small><a href="{% url 'login' %}">Login</a> to like</small>
+            {% endif %}
+            
+                - {{ total_likes }} Likes
+            
+            </form>
+        </div>
+    </div>
+	
+    <hr class="m-3">
+    <article class="m-2">
+        {% if post.header_image %}
+            <img src="{{ post.header_image.url }}" alt="" style="width: 90vw;">
+        {% endif %}
+        {{ post.body|safe }}
+    </article>
+
+    {% if user.is_superuser %}
+    <div class="d-flex justify-content-between mx-3">
+        <a href="{% url 'blog:edit_post' post.pk %}" class="btn btn-success">Edit Post</a>
+        <a href="{% url 'blog:delete_post' post.pk %}" class="btn btn-success">Delete</a>
+    </div>
+    {% endif %}
+
+<h1>Comments...</h1>
+<br/>
+{% if not post.comments.all %}
+    No Comments Yet...<a href="{% url 'add_comment' post.pk %}">Add One</a>
+{% else %}
+
+<a href="{% url 'add_comment' post.pk %}">Add Comment</a>
+<br/><br/>
+
+    {% for comment in post.comments.all %}
+            <strong>
+                {{ comment.name }} - 
+                {{ comment.date_added }}
+            </strong>
+            <br/>
+            {{ comment.body }}
+            <br/><br/>
+            
+        
+    {% endfor %}
+            <a href="{% url 'add_comment' post.pk %}">Add Comment</a>
+    {% endif %}
+    <br/>
+</body>
+{% endblock %}

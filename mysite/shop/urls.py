@@ -14,4 +14,6 @@ urlpatterns = [
     path('update_info/', views.update_info, name='update_info'),
     path('search/', views.search, name='search'),
     path('account_info/', views.account_info, name='account_info'),
+    path('product/<int:pk>/add_review', views.add_review, name='add_review'),
+    path('liked/', views.liked_page, name='liked-page'),
 ] 

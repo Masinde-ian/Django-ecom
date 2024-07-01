@@ -1,13 +1,22 @@
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, SetPasswordForm 
 from django import forms
-from .models import Profile
+from .models import Profile, Review
 
 
 
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=150, label="Username", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Username'}))
     password = forms.CharField(label="Password", widget=forms.PasswordInput(attrs={'class':'form-control', 'placeholder':'Password'}))
+
+
+class ReviewForm(forms.ModelForm):
+	class Meta:
+		model = Review
+		fields = ('body',)
+		widgets = {
+			'body': forms.Textarea(attrs={'class': 'form-control'}),	
+		}
 
 
 class UserInfoForm(forms.ModelForm):

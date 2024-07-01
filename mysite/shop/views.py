@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.template.response import TemplateResponse
 
-from .models import Product, Category, Condition, Profile, Sub_category, Brand
+from .models import Product, Category, Condition, Profile, Sub_category, Brand, Like
 from .filters import ProductFilter
 
 from django.contrib.auth import authenticate, login, logout
@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm,UserChangeForm, SetPasswordForm
-from .forms import SignUpForm, UpdateUserForm, ChangePasswordForm, UserInfoForm, LoginForm
+from .forms import SignUpForm, UpdateUserForm, ChangePasswordForm, UserInfoForm, LoginForm, ReviewForm
 from django import forms
 
 from payment.forms import ShippingForm
@@ -53,20 +53,56 @@ def home(request):
         'products':products,
     })
 
-# def navbar(request):
-#     categories = Category.objects.all()
-#     context = {'categories': categories}
-#     # Other view logic...
-#     return render(request, 'my_template.html', context)
 
 def account_info(request):
     return redirect("shop:update_info")
 
-def product(request,pk):
-    product = Product.objects.get(id = pk)
+# def product(request,pk):
+#     product = Product.objects.get(id = pk)
+#     return render(request, 'product.html', {
+#         'product':product,
+#     })
+def product(request, pk):
+    product = get_object_or_404(Product, id=pk)
+    liked = False
+
+    if request.user.is_authenticated:
+        # Check if the user has already liked this product
+        liked = Like.objects.filter(user=request.user, product=product).exists()
+
+    if request.method == 'POST':
+        # Handle like/unlike button click
+        if liked:
+            Like.objects.filter(user=request.user, product=product).delete()
+        else:
+            Like.objects.create(user=request.user, product=product)
+
+        # Redirect back to the product page
+        return redirect('product', pk=pk)
+
     return render(request, 'product.html', {
-        'product':product,
+        'product': product,
+        'liked': liked,
     })
+
+def liked_page(request):
+    user_likes = Like.objects.filter(user=request.user)
+    liked_products = [like.product for like in user_likes]
+
+    return render(request, 'liked_page.html', {'liked_products': liked_products})
+
+def add_review(request, pk):
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.post_id = pk
+            comment.save()
+            return redirect('home')  # Replace 'home' with your actual URL name
+    else:
+        form = CommentForm()
+
+    return render(request, 'add_review.html', {'form': form})
 
 from django.db.models import Max, Min
 
@@ -302,7 +338,7 @@ def register_user(request):
             user.save()
             messages.success(request, 'You have been registered successfully.')
             login(request, user)
-            return redirect('shop:update_info')
+            return redirect('shop:home')
         else:
             return render(request, 'register.html', {'form': form})
 

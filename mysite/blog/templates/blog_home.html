@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Home</title>
+</head>
+<body class="">
+    <div class="row m-1 bg-light">
+        <div class="container col-12 col-md-4 col-lg-4">
+            <div class="bg-primary">
+                <h3 class="p-2 text-white">Blog Category</h3>
+            </div>
+            <ul class="text-black list-unstyled bg-dark-subtle">
+                {% for post in cat_menu %}
+                <li class=""><a href="{% url 'blog:category' post.name %}" class="text-decoration-none text-primary-emphasis fw-bolder m-1">{{ post.name }}</a></li>
+                <hr>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-12 col-md-7 col-lg-7">
+            <ul>
+                {% for post in object_list %}
+                    <!-- <li><a href="{}">{{ post.title }}</a></li> -->
+                     <!-- Post preview -->
+                    <div class="post-preview d-flex">
+                        {% if post.header_image %}
+                        <div>
+                            <img src="{{ post.header_image.url }}" alt="" style="height: 20vh;">
+                        </div>
+                        {% endif %}
+                        <div>
+                            <a href="{% url 'blog:article-detail'  post.pk %}" class="text-decoration-none text-black">
+                                <h2 class="post-title">{{ post.title }}</h2>- {{ post.category }}
+                                <p class="post-subtitle fw-lighter fst-italic"> {{ post.snippet }} </p>
+                            </a>
+                            <p class="post-meta">
+                                Posted by
+                                <a href="#!" class="fw-lighter fst-italic text-decoration-none"> {{ post.author}} </a>
+                                on {{ post.pub_date }}
+                            </p>
+                        </div>    
+                    </div>
+                    <hr class="my-4">
+                {% endfor %}
+            </ul>
+        </div>
+        {% if user.is_superuser %}
+        <a href="{% url 'blog:add_post' %}" class="btn btn-success">Add post</a>
+        {% endif %}    
+    </div> 
+</body>
+</html>
+{% endblock %}
+

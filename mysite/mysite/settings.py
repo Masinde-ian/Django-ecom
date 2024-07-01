@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'bootstrap5',
     'Cart',
     'payment',
+    'blog',
+    'ckeditor',
 ]
 
 MIDDLEWARE = [

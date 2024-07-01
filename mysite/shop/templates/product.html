@@ -60,9 +60,19 @@
                                 <div class="d-flex justify-content-lg-evenly justify-content-between container-fluid m-2">
                                     <button type="submit" class="btn btn-outline-primary">Add to Cart</button>
                                     <a href="{% url 'shop:home' %}" class="btn btn-outline-success">Home</a>
-                                </div> 
-                                
-                            </form>                                   
+                                </div>                             
+                            </form>
+                            {% if liked %}
+                            <form method="post" action="{% url 'shop:product' product.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-sm btn-primary">Unlike</button>
+                            </form>
+                            {% else %}
+                            <form method="post" action="{% url 'shop:product' product.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-sm btn-danger">Like</button>
+                            </form>
+                            {% endif %}                                   
                         </div>
                     </div>                                               
                     <div class="row my-2">

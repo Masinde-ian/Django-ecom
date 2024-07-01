@@ -1,0 +1,7 @@
+<!-- liked_page.html -->
+<h1>Your Liked Items</h1>
+<ul>
+    {% for product in liked_products %}
+        <li>{{ product.name }}</li>
+    {% endfor %}
+</ul>

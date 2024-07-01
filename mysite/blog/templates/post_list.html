@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Home</title>
+</head>
+<body>
+    <div class="text-center m-1"> <h3 class="fw-bolder">{{ categories.name }}</h3> </div>
+    <hr>
+    <div class="row m-1">
+        <div class="container col-12 col-md-4 col-lg-4">
+            <div class="bg-primary">
+                <h3 class="p-2 text-white">Blog Category</h3>
+            </div>
+            <ul class="text-black list-unstyled bg-light">
+                {% for category in category %}
+                    <li> <a href="{% url 'blog:post_list' category.name %}" class="p-2 text-decoration-none fw-bold text-primary-emphasis"> {{ category.name }} </a></li>
+                    <hr>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-12 col-md-7 col-lg-7">
+            <ul>
+                {% for post in posts %}
+                    <!-- <li><a href="{}">{{ post.title }}</a></li> -->
+                     <!-- Post preview -->
+                    <div class="post-preview d-flex">
+                        <img src="{{ post.image.url }}" alt="" style="height: 20vh;" class="mx-1">
+                        <div>
+                            <a href="{% url 'blog:article_detail' post.id %}" class="text-decoration-none text-black">
+                                <h2 class="post-title">{{ post.title }}</h2>
+                                <h4 class="post-subtitle fw-lighter fst-italic"> {{ post.sub_title }} </h4>
+                            </a>
+                            <p class="post-meta">
+                                Posted by
+                                <a href="#!" class="fw-lighter fst-italic text-decoration-none"> {{ post.author}} </a>
+                                on {{ post.pub_date }}
+                            </p>
+                        </div>    
+                    </div>
+                    <hr class="my-4">
+                {% endfor %}
+            </ul>
+        </div>    
+    </div> 
+</body>
+</html>
+{% endblock %}
+
