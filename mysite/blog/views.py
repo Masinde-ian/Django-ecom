@@ -1,9 +1,9 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Post, Category, Comment
 from .forms import PostForm, EditForm, CommentForm
 from django.urls import reverse_lazy, reverse
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404
 #def home(request):
 #	return render(request, 'home.html', {})
 
@@ -75,16 +75,33 @@ class AddPostView(CreateView):
 	#fields = '__all__'
 	#fields = ('title', 'body')
 
-class AddCommentView(CreateView):
-	model = Comment
-	form_class = CommentForm
-	template_name = 'add_comment.html'
-	#fields = '__all__'
-	def form_valid(self, form):
-		form.instance.post_id = self.kwargs['pk']
-		return super().form_valid(form)
+def add_comment(request, pk):
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.post_id = pk
+            comment.save()
+            return redirect('blog:article-detail', pk)
+    else:
+        form = CommentForm()
 
-	success_url = reverse_lazy('home')
+    context = {'form': form}
+    return render(request, 'add_comment.html', context)
+
+def remove_comment(request, pk):
+    try:
+        comment = Comment.objects.get(id=str(pk))
+    except Comment.DoesNotExist:
+        raise Http404("Comment does not exist")  # Optional: Handle 404 error in a custom way
+
+    if request.method == 'POST':
+        comment.delete()
+        return redirect('blog:article-detail', pk=comment.post_id)
+    
+    context = {'comment': comment}
+    return render(request, 'article_details.html', context)
+
 
 class AddCategoryView(CreateView):
 	model = Category
@@ -96,7 +113,7 @@ class AddCategoryView(CreateView):
 class UpdatePostView(UpdateView):
 	model = Post
 	form_class = EditForm
-	template_name = 'update_post.html'
+	template_name = 'edit_post.html'
 	#fields = ['title', 'title_tag', 'body']
 
 class DeletePostView(DeleteView):

@@ -30,5 +30,6 @@ urlpatterns = [
     path('cart/',include('Cart.urls')),
     path('login/', auth_views.login_user, name='login'),
     path('logout/', auth_views.logout_user, name='logout'),
-    path('register/', auth_views.register_user, name='register'),   
+    path('register/', auth_views.register_user, name='register'),
+    path("ckeditor5/", include('django_ckeditor_5.urls')),   
 ]+static(settings.MEDIA_URL, document_root= settings.MEDIA_ROOT) 

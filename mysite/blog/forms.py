@@ -1,15 +1,18 @@
 from django import forms
 from .models import Post, Category, Comment
-# from ckeditor.widgets import CKEditor5Widget
+from django_ckeditor_5.widgets import CKEditor5Widget
 
 
-# choices = [('coding', 'coding'), ('sports', 'sports'), ('entertainment', 'entertainment'),]
+choices = [('coding', 'coding'), ('sports', 'sports'), ('entertainment', 'entertainment'),]
 choices =  Category.objects.all().values_list('name','name')
 
 choice_list = []
 
 for item in choices:
 	choice_list.append(item)
+
+# choices = Category.objects.values_list('name', flat=True)
+# choice_list = list(choices)
 
 
 class PostForm(forms.ModelForm):
@@ -23,7 +26,7 @@ class PostForm(forms.ModelForm):
 			'author': forms.TextInput(attrs={'class': 'form-control', 'value':'', 'id':'author'}),
 			# 'author': forms.Select(attrs={'class': 'form-control'}),
 			'category': forms.Select(choices=choice_list, attrs={'class': 'form-control'}),
-			'body': forms.Textarea(attrs={'class': 'form-control'}),			
+			'body': CKEditor5Widget(attrs={'class': 'form-control django_ckeditor_5'}),			
 			'snippet': forms.Textarea(attrs={'class': 'form-control'}),			
 		}
 
@@ -37,7 +40,7 @@ class EditForm(forms.ModelForm):
 			'title': forms.TextInput(attrs={'class': 'form-control'}),
 			'title_tag': forms.TextInput(attrs={'class': 'form-control'}),
 			#'author': forms.Select(attrs={'class': 'form-control'}),
-			'body': forms.Textarea(attrs={'class': 'form-control'}),			
+			'body': CKEditor5Widget(attrs={'class': 'form-control django_ckeditor_5'}),				
 			'snippet': forms.Textarea(attrs={'class': 'form-control'}),			
 		}
 
@@ -45,8 +48,9 @@ class EditForm(forms.ModelForm):
 class CommentForm(forms.ModelForm):
 	class Meta:
 		model = Comment
-		fields = ('body',)
+		fields = ('name','body')
 
 		widgets = {
+			'name': forms.TextInput(attrs={'class': 'form-control', 'value':'', 'id':'comment-name'}),
 			'body': forms.Textarea(attrs={'class': 'form-control'}),	
 		}

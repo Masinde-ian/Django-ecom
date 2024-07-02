@@ -22,8 +22,9 @@
             </ul>
         </div>
         <div class="col-12 col-md-7 col-lg-7">
-            <ul>
+            <ul class="list-unstyled" >
                 {% for post in object_list %}
+                <li class="bg-white shadow-sm shadow-primary" >
                     <!-- <li><a href="{}">{{ post.title }}</a></li> -->
                      <!-- Post preview -->
                     <div class="post-preview d-flex">
@@ -44,6 +45,7 @@
                             </p>
                         </div>    
                     </div>
+                </li>
                     <hr class="my-4">
                 {% endfor %}
             </ul>

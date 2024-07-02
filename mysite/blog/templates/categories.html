@@ -1,47 +1,53 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
-	<body>
-		<div class="row m-1 bg-light">
-			<div class="container col-12 col-md-4 col-lg-4">
-				<div class="bg-primary">
-					<h3 class="p-2 text-white">Blog Category</h3>
-				</div>
-				<ul class="text-black list-unstyled bg-dark-subtle">
-					{% for post in cat_menu %}
-					<li class=""><a href="{% url 'blog:category' post.name %}" class="text-decoration-none text-primary-emphasis fw-bolder m-1">{{ post.name }}</a></li>
-					<hr>
-					{% endfor %}
-				</ul>
-			</div>
-			{% if category_posts %}
-			<div class="col-12 col-md-7 col-lg-7">
-				<h1>{{ cats }}</h1>
-				<ul>
-				{% for post in category_posts %}
-					<!-- <li><a href="{}">{{ post.title }}</a></li> -->
-						<!-- Post preview -->
-						<div class="post-preview d-flex">
-						<!-- Bog images -->
-						<div>
-							<a href="{% url 'blog:article-detail'  post.pk %}" class="text-decoration-none text-black">
-								<h2 class="post-title">{{ post.title }}</h2>
-								<p class="post-subtitle fw-lighter fst-italic"> {{ post.body|slice:":200" }} </p>
-							</a>
-							<p class="post-meta">
-								Posted by
-								<a href="#!" class="fw-lighter fst-italic text-decoration-none"> {{ post.author}} </a>
-								on {{ post.pub_date }}
-							</p>
-						</div>    
-					</div>
-					<hr class="my-4">
-				{% endfor %}
-				</ul>
-			</div> 
-		</div>	
-	</body>
+{% if category_posts %}
+<body class="">
+    <div class="row m-1 bg-light">
+        <div class="container col-12 col-md-4 col-lg-4">
+            <div class="bg-primary">
+				<a href="{% url 'blog:blog_home' %}" class="text-decoration-none" ><h3 class="p-2 text-white">Blog Category</h3></a> 
+            </div>
+            <ul class="text-black list-unstyled bg-dark-subtle">
+                {% for post in cat_menu %}
+                <li class=""><a href="{% url 'blog:category' post.name %}" class="text-decoration-none text-primary-emphasis fw-bolder m-1">{{ post.name }}</a></li>
+                <hr>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-12 col-md-7 col-lg-7">
+			<h2> {{ cats }} </h2>
+            <ul>
+                {% for post in category_posts %}
+                    <!-- <li><a href="{}">{{ post.title }}</a></li> -->
+                     <!-- Post preview -->
+                    <div class="post-preview d-flex">
+                        {% if post.header_image %}
+                        <div>
+                            <img src="{{ post.header_image.url }}" alt="" style="height: 20vh;">
+                        </div>
+                        {% endif %}
+                        <div>
+                            <a href="{% url 'blog:article-detail'  post.pk %}" class="text-decoration-none text-black">
+                                <h2 class="post-title">{{ post.title }}</h2>- {{ post.category }}
+                                <p class="post-subtitle fw-lighter fst-italic"> {{ post.snippet }} </p>
+                            </a>
+                            <p class="post-meta">
+                                Posted by
+                                <a href="#!" class="fw-lighter fst-italic text-decoration-none"> {{ post.author}} </a>
+                                on {{ post.pub_date }}
+                            </p>
+                        </div>    
+                    </div>
+                    <hr class="my-4">
+                {% endfor %}
+            </ul>
+        </div>
+        {% if user.is_superuser %}
+        <a href="{% url 'blog:add_post' %}" class="btn btn-success">Add post</a>
+        {% endif %}    
+    </div> 
+</body>
 {% else %}
 	<h2>Sorry this page does not exist...</h2>
 {% endif %}

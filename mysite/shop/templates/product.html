@@ -135,6 +135,24 @@
                         <dd class="fw-medium">{{ product.precaution }}</dd>
                     </dl>                           
                 </div>
+                <div>
+                    {% if not post.comments.all %}
+                        No Comments Yet...<a href="{% url 'add_comment' post.pk %}">Add One</a>
+                    {% else %}
+                    <a href="{% url 'add_comment' post.pk %}">Add Comment</a>
+                    <br/><br/>
+                    {% for comment in post.comments.all %}
+                            <strong>
+                                {{ comment.name }} - 
+                                {{ comment.date_added }}
+                            </strong>
+                            <br/>
+                            {{ comment.body }}
+                            <br/><br/>                     
+                    {% endfor %}
+                            <a href="{% url 'add_comment' post.pk %}">Add Comment</a>
+                    {% endif %}
+                </div>
         </div>
     </div>
 </div>
