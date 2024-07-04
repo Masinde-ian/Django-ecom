@@ -1,3 +1,56 @@
+
+{% extends 'base.html' %}
+
+{% load static %}
+{% block title %}
+ wish-list 
+{% endblock %}
+{% block content %}
+<h2 class="fw-bold text-primary-emphasis my-1 text-center">Your Wishlist</h2>
+<table class="table container-fluid flex-shrink-1">
+    <thead>
+        <tr class="text-primary fs-6 fs-bg-4">
+            <th>Image</th>
+            <th>Product</th>
+            <th>Remove</th>
+            <th>Price</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for product in liked_products %}
+        <tr class="align-content-center">
+            <td class="flex-shrink-1 flex-fill">
+                <a href="{{ item.product.get_absolute_url }} {% url 'shop:product' product.id %}">
+                    <img src="{% if product.image %}{{ product.image.url }}
+                    {% else %}{% static 'img/edit.png' %}{% endif %}" class="img-fluid">
+                </a>
+            </td>
+            <td class="fw-bolder flex-shrink-1 flex-fill">{{ product.name }}</td>
+            <td class="flex-shrink-1 flex-fill">
+                <form action="{% url 'shop:product' product.id %}" method="post">
+                    <input type="submit" value="Remove" class='btn btn-primary container-fluid p-0'>
+                    {% csrf_token %}
+                </form>
+            </td>
+            <td class="fw-bolder flex-shrink-1 flex-fill">{{ product.new_price }}</td>
+        </tr>
+    {% endfor %}    
+    </tbody>
+</table>
+<p class="text-right d-flex">
+<a href="{% url 'shop:home' %}" class="button
+light">Continue shopping</a>
+</p>
+{% endblock %}
+
+<td>
+    <p>p>
+    <form action="{% url 'Cart:add_to_cart' product.id %}" method="post">
+        {% csrf_token %}
+        <input type="submit" value="Add to Cart">
+    </form>
+</td>
+
 <!-- liked_page.html -->
 <h1>Your Liked Items</h1>
 <ul>

@@ -1,10 +1,11 @@
 {% load static %}
 {% load custom_tags %}
+
 {% load bootstrap5 %}
-  {% bootstrap_css %}
-  {% bootstrap_javascript %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
 <!--Navigation-->
- 
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <nav class="navbar bg-light navbar-expand-lg z-0 p-0">
         <div class="container-fluid">
             <button class="navbar-toggler border-0 p-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#main-nav" aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation">
@@ -17,11 +18,8 @@
                   <!--shop by Category-->
                     <li class="nav-item">
                         <div class="btn-group dropend justify-content-between btn-b">
-                          <a href="" class="nav-link">Shop by Category</a>
-                          <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false"  id="dropdownMenuClickableInside" data-bs-auto-close="outside">
-                            <span class="visually-hidden">Toggle Dropend</span>
-                          </button>
-                          <ul class="dropdown-menu border-1 border-primary" aria-labelledby="dropdownMenuClickableInside">
+                          <a href="" class="nav-link"  onclick="toggleDropdown(event)" role="button">Shop by Category</a>
+                          <ul class="dropdown-menu border-1 border-primary position-absolute top-100" id="navDropdown">
                             {% get_categorys as categorys %}
                             {% for category in categorys %}
                             <li class=""><a href="{% url 'shop:category' category.name %}" class="dropdown-item">{{ category.name }}</a></li>
@@ -32,11 +30,8 @@
                     <!--shop by Condition-->
                     <li class="nav-item">
                         <div class="btn-group dropend justify-content-between btn-b">
-                          <a href="" class="nav-link">Shop by Condition</a>
-                          <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false" id="DropdownMenuClickableInside" data-bs-auto-close="outside">
-                            <span class="visually-hidden">Toggle Dropend</span>
-                          </button>
-                          <ul class="dropdown-menu border-1 border-primary" aria-labelledby="DropdownMenuClickableInside">
+                          <a href="" class="nav-link" onclick="toggleDropdown1(event)">Shop by Condition</a>
+                          <ul class="dropdown-menu border-1 border-primary position-absolute top-100" id="navDropdown1">
                             {% get_conditions as conditions %}
                             {% for condition in conditions %}
                             <li class=""><a href="{% url 'shop:condition' condition.name %}" class="dropdown-item">{{ condition.name }}</a></li>
@@ -86,7 +81,7 @@
                 </ul>
                 <!--Delivery Location-->
                 <div class="btn btn-outline-primary">
-                  <a href="#" class="text-decoration-none">
+                  <a href="{% url 'shop:update_info' %}" class="text-decoration-none">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
                       <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/>
                     </svg>
@@ -97,3 +92,17 @@
             </div>
         </div> 
     </nav>
+    <script>
+      function toggleDropdown(event) {
+        event.preventDefault();
+        const dropdownContent = document.getElementById("navDropdown");
+        dropdownContent.classList.toggle("show");
+      }
+      function toggleDropdown1(event) {
+        event.preventDefault();
+        const dropdownContent = document.getElementById("navDropdown1");
+        dropdownContent.classList.toggle("show");
+      }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>

@@ -28,11 +28,11 @@
               Delivery
             </a>
           </li>
-          <!-- <li>
-            <a href="#" class="nav-link link-dark">
-              Customers
+          <li>
+            <a href="{% url 'shop:favourites' %}" class="nav-link link-dark">
+              Wishlist
             </a>
-          </li> -->
+          </li>
           {% if user.is_superuser %}
             <hr>
             <ul class="nav nav-pills flex-column mb-auto">

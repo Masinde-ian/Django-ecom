@@ -18,11 +18,6 @@ class Profile(models.Model):
 	def __str__(self):
 		return self.user.username
 
-# Create a user Profile by default when user signs up
-# def create_profile(sender, instance, created, **kwargs):
-# 	if created:
-# 		user_profile = Profile(user=instance)
-# 		user_profile.save()
 def create_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
@@ -75,7 +70,7 @@ class Product(models.Model):
     price =  models.DecimalField(default = 0, decimal_places = 2, max_digits = 8)
     discount = models.DecimalField(default = 0, decimal_places = 2, max_digits = 6)
     sub_category = models.ForeignKey(Sub_category, on_delete = models.CASCADE, default=1)
-    category = models.ForeignKey(Category, on_delete = models.CASCADE, default=1)
+    category = models.ForeignKey(Category, on_delete = models.CASCADE, blank=True, null=True,)
     condition = models.ForeignKey(Condition, on_delete = models.CASCADE, default=1, blank=True)
     description = models.CharField(max_length = 500, default = '', blank = True, null = True)
     image = models.ImageField(upload_to = 'product/')
@@ -94,8 +89,8 @@ class Product(models.Model):
         self.new_price = self.price - self.discount
 
         # Retrieve the category associated with the sub_category
-        if self.sub_category:
-            self.category = self.sub_category.category
+        # if self.sub_category:
+        self.category = self.sub_category.category
 
         # Call the superclass's save method
         super().save(*args, **kwargs)
@@ -131,20 +126,10 @@ class Review(models.Model):
 		return '%s - %s' % (self.post.title, self.name)
 
 
-'''class image(models.Model):
-    name = models.CharField(max_length = 50, null=False, default=1) 
-    logo = models.ImageField(upload_to = 'media/design/', null=True)
-    offer1 = models.ImageField(upload_to = 'media/design/', null=True)
-    offer2 = models.ImageField(upload_to = 'media/design/', null=True)
-    offer3 = models.ImageField(upload_to = 'media/design/', null=True)
-    post1 = models.ImageField(upload_to = 'media/design/', null=True)
-    post2 = models.ImageField(upload_to = 'media/design/', null=True)
-    post3 = models.ImageField(upload_to = 'media/design/', null=True)
-    pay1 = models.ImageField(upload_to = 'media/design/', null=True)
-    pay2 = models.ImageField(upload_to = 'media/design/', null=True)
-    pay3 = models.ImageField(upload_to = 'media/design/', null=True)
+class Email(models.Model):
+    email = models.EmailField(max_length=70, unique=True)
 
-    def __str__ (self):
-        return self.name'''
+    def __str__(self):
+        return self.email
 
 

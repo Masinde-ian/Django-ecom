@@ -28,21 +28,21 @@
       <div class="container-fluid m-0 p-0 z-n2">
         <div class="container-fluid m-0 p-0">
           <div class="m-0 p-0 grid d-flex carousel slide" id="carouselll">
-            <div class="grid carousel-inner" id="carousel-inner">
+            <div class="carousel-inner" id="carousel-inner" style="overflow-x: scroll;">
               {% for product in products %}
                 {% if product.discount > 0 %} 
                   {% include 'offercard.html' with product=product %}                  
                 {% endif %}
               {% endfor %}
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselll" data-bs-slide="prev">
+            <!-- <button class="carousel-control-prev" type="button" data-bs-target="#carouselll" data-bs-slide="prev">
               <span class="carousel-control-prev-icon bg-black" aria-hidden="false"></span>
               <span class="visually-hidden">Previous</span>
             </button>
             <button class="carousel-control-next" type="button" data-bs-target="#carouselll" data-bs-slide="next">
               <span class="carousel-control-next-icon bg-black" aria-hidden="false"></span>
               <span class="visually-hidden">Next</span>
-            </button>                
+            </button>                 -->
           </div>        
         </div>
       </div>
@@ -61,19 +61,19 @@
       <div class="container-fluid m-0 p-0 z-n2">
         <div class="container-fluid m-0 p-0">
           <div class="m-0 p-0 container d-flex carousel slide" id="carousell">
-            <div class="grid carousel-inner" id="carousel-inner" role="listbox">
+            <div class="carousel-inner" id="carousel-inner" role="listbox" style="overflow-x: scroll;">
           {% for product in products %}
              {% include 'pricecard.html' with product=product %}                        
           {% endfor %}
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carousell" data-bs-slide="prev" id="prev-button">
+            <!-- <button class="carousel-control-prev" type="button" data-bs-target="#carousell" data-bs-slide="prev" id="prev-button" onclick="prevSlide()">
               <span class="carousel-control-prev-icon bg-black" aria-hidden="true"></span>
               <span class="visually-hidden">Previous</span>
             </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carousell" data-bs-slide="next" id="next-button">
+            <button class="carousel-control-next" type="button" data-bs-target="#carousell" data-bs-slide="next" id="next-button" onclick="nextSlide()">
               <span class="carousel-control-next-icon bg-black" aria-hidden="true"></span>
               <span class="visually-hidden">Next</span>
-            </button>         
+            </button>          -->
           </div>
         </div>
       </div>
@@ -94,19 +94,22 @@
         </p>
       </div>
       <div class="container-fluid row justify-content-between">
-        <a href="#" class="col-4 col-lg-2 btn btn-outline-primary m-3 border-3">Consultation</a>
+        <a href="#" class="col-4 col-lg-2 btn btn-outline-primary p-0 m-3 border-3">Consultation</a>
         <a href="#" class="col-4 col-lg-2 btn btn-outline-primary m-3 border-3">Lab Services</a>
-        <a href="#" class="col-4 col-lg-2 btn btn-outline-primary m-3 border-3">Vaccinations</a>
+        <a href="#" class="col-4 col-lg-2 btn btn-outline-primary p-0 m-3 border-3">Vaccinations</a>
         <a href="#" class="col-4 col-lg-2 btn btn-outline-primary m-3 border-3">Diagnostic Tests</a>
       </div>
     </div>
     <!--Bottom-->
     <div class="container-fluid row p-2 m-2 justify-content-between align-items-center" style="background-color:rgb(30 58 138);">
       <p class="col-11 col-lg-4 fw-bold fs-6" style="color: white;">Sign Up for updates on our latest deals, Product News and more from Ryche Pharmaceuticals</p>
-      <div class="coll-11 col-lg-5 border-1 border p-0" style="display: inline; height: fit-content;">
-        <input type="email" name="email" id="email-n" class="w-100" placeholder="Insert your email adress" style="width: 80%;">
-      </div>
-      <button type="submit" class="col-11 col-lg-2 btn btn-light h-25 m-3">Subscribe</button>
+      <form action="{% url 'shop:process_email' %}" method="post" class="d-flex coll-12 col-lg-6 row align-items-center">
+        {% csrf_token %}
+        <div class="coll-11 col-lg-7 border-1 border p-0" style="display: inline; height: fit-content;">
+          <input type="email" name="email" id="email-n" class="w-100" placeholder="Insert your email adress" style="width: 80%;">
+        </div>
+        <button type="submit" class="col-11 col-lg-4 btn btn-light h-25 m-3">Subscribe</button>
+      </form>
     </div>
     <div class="container-fluid row p-2 m-2 justify-content-between m-3">
       <button class="col-5 col-lg-2 btn btn-primary m-2" href="">
@@ -138,77 +141,5 @@
     </div>      
   </main>
   <script>
-    // Check if button pressed
-    
-
-    /*var carouselWidth = $("#carousel-inner")[0].scrollWidth;
-              var cardWidth = $("#carousel-item").width();
-              var scrollPosition = 0;
-              $(".carousel-control-next").on("click", function () {
-                  if (scrollPosition < (carouselWidth - cardWidth * 1)) { //check if you can go any further
-                    scrollPosition += cardWidth;  //update scroll position
-                    $("#carousel-inner").animate({ scrollLeft: scrollPosition },); //scroll left
-                  }
-                });
-                $(".carousel-control-prev").on("click", function () {
-                  if (scrollPosition > 0) {
-                    scrollPosition -= cardWidth;
-                    $("#carousel-inner").animate(
-                      { scrollLeft: scrollPosition },
-                      600
-                    );
-                  }
-                });*/
-      /*const carousel = document.querySelector('#carousell');
-      const inner = document.querySelector('#carousel-inner');
-      const items = document.querySelectorAll('#carousel-item');
-      const itemWidth = items[0].clientWidth; // Assuming all items have the same width
-      let currentIndex = 0;
-      let index = 0;
-
-      const nextButton = document.getElementById('next-button');
-      const prevButton = document.getElementById('prev-button');
-
-      function displayItemAtCurrentIndex() {
-
-          items.forEach((item) =>{ 
-            item.classList.remove('active');
-            index += 1;
-            item.classList.toggle('active', index === currentIndex);
-          });
-
-          //items[currentIndex].classList.add('active');
-      }
-
-      nextButton.addEventListener('click', () => {
-          currentIndex = (currentIndex + 1) % items.length;
-          index += 1;
-          item.classList.toggle('active', index === currentIndex);
-          updateCarousel();
-          //displayItemAtCurrentIndex();
-      });
-
-      prevButton.addEventListener('click', () => {
-          currentIndex = (currentIndex - 1) % items.length;
-          index -= 1;
-          item.classList.toggle('active', index === currentIndex);
-
-          updateCarousel();
-          //displayItemAtCurrentIndex();
-      });
-
-      function updateCarousel() {
-          const offset = currentIndex + itemWidth;
-          inner.style.transform = `translateX(${offset}px)`;
-      }
-
-      /*function displayCurrentItem() {
-          items.forEach((item, index) => {
-              item.classList.toggle('active', index === currentIndex);
-          });
-      }*/
-
-
-    
   </script>
 {% endblock %}

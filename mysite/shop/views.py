@@ -1,7 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.template.response import TemplateResponse
+from django.http import HttpResponseRedirect, Http404
 
-from .models import Product, Category, Condition, Profile, Sub_category, Brand, Like
+from .models import Product, Category, Condition, Profile, Sub_category, Brand, Like, Review, Email
 from .filters import ProductFilter
 
 from django.contrib.auth import authenticate, login, logout
@@ -78,14 +79,14 @@ def product(request, pk):
             Like.objects.create(user=request.user, product=product)
 
         # Redirect back to the product page
-        return redirect('product', pk=pk)
+        return redirect('shop:product', pk)
 
     return render(request, 'product.html', {
         'product': product,
         'liked': liked,
     })
 
-def liked_page(request):
+def favourites(request):
     user_likes = Like.objects.filter(user=request.user)
     liked_products = [like.product for like in user_likes]
 
@@ -93,16 +94,34 @@ def liked_page(request):
 
 def add_review(request, pk):
     if request.method == 'POST':
-        form = CommentForm(request.POST)
+        form = ReviewForm(request.POST)
         if form.is_valid():
-            comment = form.save(commit=False)
-            comment.post_id = pk
-            comment.save()
-            return redirect('home')  # Replace 'home' with your actual URL name
+            review = form.save(commit=False)
+            review.product_id = pk
+            review.save()
+            # return redirect('shop:home')  # Replace 'home' with your actual URL name
+            return redirect('shop:product', pk=review.product_id)
     else:
-        form = CommentForm()
+        form = ReviewForm()
 
     return render(request, 'add_review.html', {'form': form})
+
+
+def remove_review(request, pk):
+    try:
+        review = Review.objects.get(id=str(pk))
+    except Review.DoesNotExist:
+        raise Http404("Review does not exist")  # Optional: Handle 404 error in a custom way
+
+    if request.method == 'POST':
+        review.delete()
+        return redirect('shop:product', pk=review.product_id)
+        # return redirect('shop:home')
+    
+    context = {'review': review}
+    return render(request, 'product.html', context)
+
+
 
 from django.db.models import Max, Min
 
@@ -146,29 +165,6 @@ def category(request, cat):
     except Category.DoesNotExist:
         return redirect('shop:home')
 
-# def sub_category(request,cat):
-#     cat = cat.replace('-', ' ')
-#     try:
-#         category = Category.objects.get(name = cat)
-#         products = Product.objects.filter(category = category,)
-#         return render(request, 'sub_category.html', {
-#             'products':products,
-#             'category':category
-#         })
-#     except:
-#         return redirect('home')
-
-# def condition(request, cat):
-#     cat = cat.replace('-', ' ')
-#     try:
-#         condition = Condition.objects.get(name = cat)
-#         products = Product.objects.filter(condition = condition,)
-#         return render(request, 'condition.html', {
-#             'products':products,
-#             'condition':condition
-#         })
-#     except:
-#         return redirect('shop:home')
 
 def condition(request, cat):
     cat = cat.replace('-', ' ')
@@ -253,31 +249,6 @@ def update_password(request):
 		return redirect('shop:home')
 
 
-# def update_info(request):
-# 	if request.user.is_authenticated:
-# 		# Get Current User
-# 		current_user_profile = User.objects.get(id=request.user.id)
-#         # current_user = Profile.objects.get(user_id=request.user.id)
-#         # current_user = Profile.objects.get(user_id=request.user.id)
-# 		# Get Current User's Shipping Info
-# 		#shipping_user = ShippingAddress.objects.get(user__id=request.user.id)
-		
-# 		# Get original User Form
-# 		u_form = UserInfoForm(request.POST or None, instance=current_user_profile)
-# 		# Get User's Shipping Form
-# 		#shipping_form = ShippingForm(request.POST or None, instance=shipping_user)		
-# 		if u_form.is_valid(): # or shipping_form.is_valid():
-# 			# Save original form
-# 			u_form.save()
-# 			# Save shipping form
-# 			#shipping_form.save()
-
-# 			messages.success(request, "Your Info Has Been Updated!!")
-# 			return redirect('shop:home')
-# 		return render(request, "update_info.html", {'u_form':u_form,})
-# 	else:
-# 		messages.success(request, "You Must Be Logged In To Access That Page!!")
-# 		return redirect('shop:home')
 
 def update_info(request):
     # current_user = request.user
@@ -348,5 +319,23 @@ def logout_user(request):
     messages.success(request,("You have been logged out.."))
     return redirect('shop:home')
 
-
+def process_email(request):
+    if request.method == 'POST':
+        user_email = request.POST.get('email')
+        
+        # Check if the email already exists in the database
+        email_obj, created = Email.objects.get_or_create(email=user_email)
+        
+        if created:
+            # New email added to the database
+            messages.success(request, "Subscription was successful")
+        else:
+            # Email already exists in the database
+            messages.info(request, "You are already subscribed")
+        
+        return redirect("shop:home")
+    
+    else:
+        # Handle GET requests (display the form)
+        return render(request, 'home.html')
 

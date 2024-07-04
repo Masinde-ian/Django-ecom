@@ -61,34 +61,44 @@
                                     <button type="submit" class="btn btn-outline-primary">Add to Cart</button>
                                     <a href="{% url 'shop:home' %}" class="btn btn-outline-success">Home</a>
                                 </div>                             
-                            </form>
-                            {% if liked %}
-                            <form method="post" action="{% url 'shop:product' product.id %}">
-                                {% csrf_token %}
-                                <button type="submit" class="btn btn-sm btn-primary">Unlike</button>
-                            </form>
-                            {% else %}
-                            <form method="post" action="{% url 'shop:product' product.id %}">
-                                {% csrf_token %}
-                                <button type="submit" class="btn btn-sm btn-danger">Like</button>
-                            </form>
-                            {% endif %}                                   
+                            </form>                               
                         </div>
                     </div>                                               
                     <div class="row my-2">
                         <div class="col-sm-12">
                                                       
                             <p class="availableStock h5 my-1">
-                                <i class="fa-solid fa-circle-check" aria-hidden="true"></i> In stock, <span>{{ product.in_stock }} available</span>
+                                {% if product.in_stock is not None %}
+                                    {% if product.in_stock > 0 %}
+                                    <i class="fa-solid fa-circle-check" aria-hidden="true"></i> In stock, <span>{{ product.in_stock}} available</span>
+                                    {% else %}
+                                    <i class="fa-solid fa-circle-check" aria-hidden="true"></i> In stock 1 available</span>
+                                    {% endif %}
+                                {% endif %}
                             </p>
                             <div class="row">
-                                <div class="col-5 col-lg-5">                                                     
-                                    <a href="#/" rel="19989" class="text-decoration-none fw-lighter fs-6">
-                                        Add to Wishlist 
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
-                                            <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
-                                        </svg>
-                                    </a>
+                                <div class="col-5 col-lg-5">
+                                    {% if not liked %}
+                                    <form action="{% url 'shop:product' product.id %}" method="post">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn text-primary">
+                                            Add to Wishlist 
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                                                <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
+                                            </svg>
+                                        </button>
+                                    </form> 
+                                    {% else %} 
+                                    <form action="{% url 'shop:product' product.id %}" method="post">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn text-primary">
+                                            Added to Wishlist 
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                                                <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
+                                            </svg>
+                                        </button>
+                                    </form>                                                 
+                                    {% endif %}
                                 </div>
                                 <div id="shareProduct" class="col-5 col-lg-7 text-right">
                                     <ul class="list-unstyled list-inline d-flex justify-content-evenly">
@@ -134,25 +144,43 @@
                         <dt class="my-1 fw-bolder fs-5 text-primary">Precautions</dt>
                         <dd class="fw-medium">{{ product.precaution }}</dd>
                     </dl>                           
-                </div>
+                </div>         
+        </div>
+
+        <!-- comments section -->
+        <div class="border border-1 border-dark m-2 p-2 rounded-4">
+            <h4 class="fw-bold m-1 text-primary-emphasis">Reviews</h4>
+            {% if not product.reviews.all %}
+                No Reviews Yet...<a href="{% url 'shop:add_review' product.pk %}">Add One</a>
+            {% else %}
+            <a href="{% url 'shop:add_review' product.pk %}">Add Comment</a>
+            <br/><br/>
+
+                {% for review in product.reviews.all %}
                 <div>
-                    {% if not post.comments.all %}
-                        No Comments Yet...<a href="{% url 'add_comment' post.pk %}">Add One</a>
-                    {% else %}
-                    <a href="{% url 'add_comment' post.pk %}">Add Comment</a>
-                    <br/><br/>
-                    {% for comment in post.comments.all %}
-                            <strong>
-                                {{ comment.name }} - 
-                                {{ comment.date_added }}
+                    <div>
+                        <p class="p-0 m-0"> Comment by:
+                            <strong class="">
+                                {{ review.name }}  
                             </strong>
-                            <br/>
-                            {{ comment.body }}
-                            <br/><br/>                     
-                    {% endfor %}
-                            <a href="{% url 'add_comment' post.pk %}">Add Comment</a>
-                    {% endif %}
-                </div>
+                        </p>
+                        <small class="">
+                            {{ review.date_added }}
+                        </small>
+                        <p>{{ review.body }}</p>   
+                    </div>
+                    <div>
+                        <form action="{% url 'shop:remove_review' review.id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-small btn-outline-secondary" > remove</button>
+                        </form>
+                    </div>
+                    <hr>
+                </div>    
+                {% endfor %}
+                        <a href="{% url 'shop:add_review' product.pk %}">Add Comment</a>
+                {% endif %}
+                <br/>
         </div>
     </div>
 </div>
@@ -190,3 +218,5 @@
 
 </script>
 {% endblock %}
+
+ 

@@ -51,60 +51,6 @@ def add_to_cart(request, product_id):
         
 
 
-# def add_to_cart(request, product_id):
-#     product = get_object_or_404(Product, id=product_id)
-#     cart, created = Cart.objects.get_or_create(user=request.user)
-#     cart_item, item_created = CartItem.objects.get_or_create(cart=cart, product=product)
-
-#     if request.method == 'POST':
-#         quant = request.POST.get('quant', '')
-#         if not quant:
-#             quantity = int(request.POST.get('quantity', 1))  # Get quantity from POST data
-#         else:
-#             quant1 = int(quant)
-#             maximum = int(product.in_stock)
-#             if quant1 <= maximum:
-#                 quantity = int(quant1)
-#             else:
-#                 messages.error(request, 'Reduce the quantity...')
-
-
-
-#         # If the item already exists in the cart, update its quantity
-#         if not item_created:
-#             cart_item.quantity += quantity  # Increase quantity by the submitted quantity
-#             cart_item.save()
-#             messages.success(request, f'Quantity updated for {product.name} in cart.')
-#         else:
-#             # process_quantity(request)
-#             cart_item.quantity = quantity  # Set quantity to the submitted quantity
-#             cart_item.save()
-#             messages.success(request, f'{product.name} added to cart.')
-#     else:
-#         messages.error(request, "Invalid form submission")  # Handle invalid form submission
-    
-#     return redirect(request.META.get('HTTP_REFERER', '/'))# Redirect to cart summary page
-
-
-# def add_to_cart(request, product_id):
-#     product = get_object_or_404(Product, id=product_id)
-#     cart, created = Cart.objects.get_or_create(user=request.user)
-#     cart_item, item_created = CartItem.objects.get_or_create(cart=cart, product=product)
-#     quantity = int(request.POST.get('quantity', 1))
-
-#     if request.method == 'POST':
-#         cart_item, item_created = CartItem.objects.get_or_create(cart=cart, product=product)
-#         quantity = request.session.get('quantity')  # passing quantity value from process_quantity
-
-#         # If the item already exists in the cart, increase its quantity
-#         if not item_created:
-#             cart_item.quantity += 1
-#             cart_item.save()
-#     else:
-#         messages.success(request,("Invalid form submission"))
-    
-#     return redirect('Cart:cart_summary')  # Redirect to cart summary page
-
 def cart_summary(request):
     # cart = Cart.objects.get(user=request.user)
     if request.user.is_authenticated:

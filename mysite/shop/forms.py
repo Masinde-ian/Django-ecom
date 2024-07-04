@@ -13,8 +13,9 @@ class LoginForm(forms.Form):
 class ReviewForm(forms.ModelForm):
 	class Meta:
 		model = Review
-		fields = ('body',)
+		fields = ('name','body')
 		widgets = {
+			'name': forms.TextInput(attrs={'class': 'form-control', 'value':'', 'id':'review-name', 'type':'hidden'}),
 			'body': forms.Textarea(attrs={'class': 'form-control'}),	
 		}
 

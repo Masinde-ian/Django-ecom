@@ -174,6 +174,9 @@ def process_order(request):
                     quantity=item.quantity,
                     price=item.product.price  # Assuming price is stored in each cart item's related product
                 )
+                # Reduce the product's stock quantity
+                item.product.in_stock -= item.quantity
+                item.product.save()
 
             # Clear session data
             request.session.pop('my_shipping', None)
@@ -259,6 +262,46 @@ def process_order(request):
         except IntegrityError:
             messages.error(request, "An error occurred while processing your order. Please try again.")
             return redirect('Cart:cart_summary')
+
+
+def access_token():
+    # Function to fetch access token from Safaricom Daraja API
+    consumer_key = "8RPx0gFdZge705RC6kCl6W8p4w2JxdIAYj68JGcztlPoIQtk"
+    consumer_secret = "F1XEvkw1WUklXO3v4dJOfF3OQaAreCWQML7GOaBIWUbLz8pLMRPGnV4WLu1VyzHU"
+    api_url = 'https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials'
+    response = requests.get(api_url, auth=(consumer_key, consumer_secret))
+    access_token = response.json().get('access_token', '')
+    return access_token
+
+
+def stk_push(request):
+    headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer vl9ZyorhimWg2ktYfuXZxuihwAgM'
+    }
+
+    payload = {
+        "Initiator": "your_initiator",  # Replace with the correct initiator
+        "SecurityCredential": "your_security_credential",  # Replace with the actual security credential
+        "CommandID": "BusinessPayBill",
+        "SenderIdentifierType": "4",
+        "RecieverIdentifierType": 4,
+        "Amount": 1,
+        "PartyA": 600999,
+        "PartyB": 600000,
+        "AccountReference": "353353",
+        "Requester": "254708374149",
+        "Remarks": "ok",
+        "QueueTimeOutURL": "https://mydomain.com/b2b/queue/",
+        "ResultURL": "https://mydomain.com/b2b/result/"
+    }
+
+    response = requests.post('https://sandbox.safaricom.co.ke/mpesa/b2b/v1/paymentrequest', headers=headers, json=payload)
+    print(response.text.encode('utf8'))
+
+
+
+
 
 
 def payment_success(request):

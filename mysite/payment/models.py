@@ -71,3 +71,11 @@ class OrderItem(models.Model):
 
 	def __str__(self):
 		return f'Order Item - {str(self.id)}'
+
+	# def save(self, *args, **kwargs):
+	# 	# Call the superclass's save method
+	# 	super().save(*args, **kwargs)
+
+	# 	# Reduce the product's stock quantity
+	# 	self.product.in_stock -= self.quantity
+	# 	self.product.save()

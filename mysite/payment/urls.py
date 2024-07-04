@@ -9,4 +9,6 @@ urlpatterns = [
     path('undelivered_dash', views.undelivered_dash, name='undelivered_dash'),
     path('delivered_dash/', views.delivered_dash, name='delivered_dash'),
     path('orders/<int:pk>', views.view_order, name='view_order'),
+    path('access_token/', views.access_token, name='access_token'),
+    path('stk-push/', views.stk_push, name='stk_push')
 ]

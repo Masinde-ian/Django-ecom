@@ -14,6 +14,10 @@
 			<button class="btn btn-secondary">Review</button>
 		</form>
 	</div>
+	<script>
+		var name = "{{ user.id }}";
+		document.getElementById("review-name").value = name;
+	</script>
 
 
 {% endblock %}
