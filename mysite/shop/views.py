@@ -54,6 +54,21 @@ def home(request):
         'products':products,
     })
 
+def offers(request):
+    # Filter products with a discount greater than 0
+    products = Product.objects.filter(discount__gt=0)
+    # Filter brands based on the selected brands
+    selected_brands = request.POST.getlist('brands')
+    if selected_brands:
+        products = products.filter(brand__id__in=selected_brands)
+    # Retrieve distinct brands
+    brands = Brand.objects.distinct()
+    return render(request, 'offers.html', {
+        'products': products,
+        'brands': brands,
+        'selected_brands': selected_brands,
+    })
+
 
 def account_info(request):
     return redirect("shop:update_info")
@@ -261,11 +276,9 @@ def update_info(request):
     if request.method == 'POST':
         u_form = UserInfoForm(request.POST, instance=current_user)
         s_form = ShippingForm(request.POST, instance = shipping_user)
-        if u_form.is_valid() and s_form.is_valid():
+        if u_form.is_valid():
             # saving info form
-            u_form.save()
-            # saving shipping form
-            s_form.save()    
+            u_form.save()   
             messages.success(request, "Your info has been updated successfully.")
             return redirect('shop:home')
         else:

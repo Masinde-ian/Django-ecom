@@ -2,6 +2,7 @@
 {% load bootstrap5 %}
 {% bootstrap_css %}
 {% bootstrap_javascript %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <div class=" d-flex flex-column flex-sm-shrink-5 p-3 bg-light" style="width: 280px; height: 100vh;" id="nav">
         <a href="" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
           <span class="fs-4 fw-bold">Account</span>
@@ -42,10 +43,10 @@
                 </a>
                 </li> -->
                 <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <button class="nav-link dropdown-toggle" href="" id="navbar" role="button" data-bs-toggle="dropdown" aria-expanded="True">
                     Orders
-                  </a>
-                  <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                  </button>
+                  <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbar">
                     <li><a class="dropdown-item" href="{% url 'payment:delivered_dash' %}">Delivered</a></li>
                     <li><a class="dropdown-item" href="{% url 'payment:undelivered_dash' %}">Un-Delivered</a></li>
                     <!-- <li><a class="dropdown-item" href="#">Something else here</a></li> -->
@@ -78,3 +79,5 @@
           </ul> -->
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>

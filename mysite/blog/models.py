@@ -23,7 +23,8 @@ class Post(models.Model):
 	body = CKEditor5Field(blank=True, null=True, config_name='extends')
 	#body = models.TextField()
 	post_date = models.DateField(auto_now_add=True)
-	category = models.CharField(max_length=255,)
+	# category = models.CharField(max_length=255,)
+	category = models.ForeignKey(Category, on_delete=models.CASCADE, default=1)
 	snippet = models.CharField(max_length=255)
 	likes = models.ManyToManyField(User, related_name='blog_posts')
 
@@ -36,24 +37,6 @@ class Post(models.Model):
 	def get_absolute_url(self):
 		#return reverse('article-detail', args=(str(self.id)) )
 		return reverse('blog:blog_home')
-
-# class UserInfo(models.Model):
-# 	user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
-# 	bio = models.TextField()
-# 	profile_pic = models.ImageField(null=True, blank=True, upload_to="images/profile/")
-# 	website_url = models.CharField(max_length=255, null=True, blank=True)
-# 	facebook_url = models.CharField(max_length=255, null=True, blank=True)
-# 	twitter_url = models.CharField(max_length=255, null=True, blank=True)
-# 	instagram_url = models.CharField(max_length=255, null=True, blank=True)
-# 	pinterest_url = models.CharField(max_length=255, null=True, blank=True)
-
-
-# 	def __str__(self):
-# 		return str(self.user)
-
-# 	def get_absolute_url(self):
-# 		return reverse('blog:blog_home')
-
 
 
 class Comment(models.Model):
