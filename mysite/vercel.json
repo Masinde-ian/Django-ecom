@@ -4,7 +4,7 @@
         "use": "@vercel/python",
         "config": { 
         "maxLambdaSize": "15mb",
-         "runtime": "python3.9",
+         "runtime": "python3.9"
         //  "PG_CONFIG": "C:/Program Files/PostgreSQL/16/bin/pg_config" 
         }
     }],
